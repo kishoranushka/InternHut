@@ -5,8 +5,14 @@ import { PrismaClient } from "@/app/generated/prisma/client";
 // exhaust Postgres connections every time a file changes.
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
+// Vercel's env var injection has been observed to prepend a stray UTF-8 BOM
+// (U+FEFF) to values, which silently breaks URL parsing in the pg driver.
+function stripBom(value: string | undefined) {
+  return value?.charCodeAt(0) === 0xfeff ? value.slice(1) : value;
+}
+
 function createPrismaClient() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  const adapter = new PrismaPg({ connectionString: stripBom(process.env.DATABASE_URL) });
   return new PrismaClient({ adapter });
 }
 
