@@ -23,6 +23,8 @@ import { HeroGraphic } from "@/components/public/hero-graphic";
 import { FadeInUp, Stagger, StaggerItem } from "@/components/public/motion";
 import { FaqAccordion } from "@/components/public/faq-accordion";
 
+export const dynamic = "force-dynamic";
+
 async function getFeaturedInternships() {
   return prisma.internship.findMany({
     where: { status: "PUBLISHED" },
