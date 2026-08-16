@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  /* Core surfaces */
+  --background: #fafafa;
+  --foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+  --card: #ffffff;
+
+  /* Electric Blue accent */
+  --accent: #0052ff;
+  --accent-secondary: #4d7cff;
+  --accent-foreground: #ffffff;
+  --ring: #0052ff;
+
+  /* Status */
+  --success: #2e7d32;
+  --error: #c0392b;
+
+  /* Shadows */
+  --shadow-accent: 0 4px 14px rgba(0, 82, 255, 0.25);
+  --shadow-accent-lg: 0 8px 24px rgba(0, 82, 255, 0.35);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+
+  --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+
+  --color-success: var(--success);
+  --color-error: var(--error);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-calistoga);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Signature gradient, reused across buttons, badges, borders, text */
+.bg-gradient-accent {
+  background-image: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+}
+
+.text-gradient-accent {
+  background-image: linear-gradient(to right, var(--accent), var(--accent-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.gradient-underline {
+  position: absolute;
+  bottom: -0.25rem;
+  left: 0;
+  height: 0.75rem;
+  width: 100%;
+  border-radius: 0.125rem;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 82, 255, 0.15),
+    rgba(77, 124, 255, 0.1)
+  );
+}
+
+@media (min-width: 768px) {
+  .gradient-underline {
+    bottom: -0.5rem;
+    height: 1rem;
+  }
+}
+
+/* Subtle dot-grid texture for inverted / dark sections */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.shadow-accent {
+  box-shadow: var(--shadow-accent);
+}
+
+.shadow-accent-lg {
+  box-shadow: var(--shadow-accent-lg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

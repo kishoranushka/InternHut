@@ -1,0 +1,230 @@
+// Prisma schema for the internship-giving website.
+// Run `npx prisma migrate dev --name init` after DATABASE_URL is set to create these tables.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CourseEligibility {
+  BBA
+  BCOM
+  BCA
+  BSC
+  MBA
+  MCOM
+  OTHER
+}
+
+enum InternshipStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ApplicationStatus {
+  NEW
+  CONTACTED
+  PAYMENT_PENDING
+  PAYMENT_CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  CREATED
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+enum CallBookingStatus {
+  BOOKED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum AlertType {
+  FIRST_TIME_VISITOR
+  QUERY_SUBMITTED
+  CALL_REQUESTED
+  APPLICATION_STARTED
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime  @default(now())
+  lastLoginAt  DateTime?
+}
+
+model Internship {
+  id                String              @id @default(cuid())
+  slug              String              @unique
+  title             String
+  shortDescription  String
+  description       String
+  courseEligibility CourseEligibility[]
+  category          String
+  durationWeeks     Int
+  priceInPaise      Int
+  currency          String              @default("INR")
+  seatsTotal        Int
+  seatsFilled       Int                 @default(0)
+  status            InternshipStatus    @default(DRAFT)
+  perks             String[]
+  startDate         DateTime?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  applications Application[]
+  certificates Certificate[]
+
+  @@index([status, category])
+}
+
+model Application {
+  id            String             @id @default(cuid())
+  internshipId  String
+  internship    Internship         @relation(fields: [internshipId], references: [id])
+
+  studentName   String
+  studentEmail  String
+  studentPhone  String
+  studentCourse CourseEligibility?
+  message       String?
+  source        String?
+
+  status    ApplicationStatus @default(NEW)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  payments     Payment[]
+  certificate  Certificate?
+  callBookings CallBooking[]
+
+  @@index([studentEmail])
+  @@index([internshipId, status])
+}
+
+model CallSlot {
+  id        String   @id @default(cuid())
+  startTime DateTime
+  endTime   DateTime
+  isBooked  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  booking CallBooking?
+
+  @@unique([startTime, endTime])
+  @@index([startTime])
+}
+
+model CallBooking {
+  id         String   @id @default(cuid())
+  callSlotId String   @unique
+  callSlot   CallSlot @relation(fields: [callSlotId], references: [id])
+
+  applicationId        String?
+  application          Application? @relation(fields: [applicationId], references: [id])
+  internshipOfInterest String?
+
+  studentName  String
+  studentEmail String
+  studentPhone String
+
+  status         CallBookingStatus @default(BOOKED)
+  reminderSentAt DateTime?
+  createdAt      DateTime          @default(now())
+
+  @@index([studentEmail])
+}
+
+model Payment {
+  id            String @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+
+  razorpayOrderId   String  @unique
+  razorpayPaymentId String? @unique
+  razorpaySignature String?
+
+  amountInPaise Int
+  currency      String        @default("INR")
+  status        PaymentStatus @default(CREATED)
+
+  rawWebhookPayload Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  certificate Certificate?
+
+  @@index([applicationId])
+  @@index([status])
+}
+
+model Certificate {
+  id               String @id @default(cuid())
+  verificationCode String @unique
+
+  applicationId String      @unique
+  application   Application @relation(fields: [applicationId], references: [id])
+
+  internshipId String
+  internship   Internship @relation(fields: [internshipId], references: [id])
+
+  paymentId String?  @unique
+  payment   Payment? @relation(fields: [paymentId], references: [id])
+
+  studentNameSnapshot      String
+  internshipTitleSnapshot  String
+  issueDate                DateTime @default(now())
+  pdfUrl                   String?
+  revoked                  Boolean  @default(false)
+  revokedReason            String?
+
+  createdAt DateTime @default(now())
+
+  @@index([verificationCode])
+}
+
+model VisitorLog {
+  id            String   @id @default(cuid())
+  visitorId     String
+  ipHash        String
+  approxCity    String?
+  approxCountry String?
+  path          String
+  referrer      String?
+  userAgent     String?
+  isFirstVisit  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([visitorId])
+  @@index([createdAt])
+}
+
+model AdminAlert {
+  id        String    @id @default(cuid())
+  type      AlertType
+  title     String
+  body      String
+  linkPath  String?
+  isRead    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+
+  @@index([isRead, createdAt])
+}
