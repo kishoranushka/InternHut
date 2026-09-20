@@ -1,6 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Handshake, Sparkles, Target } from "lucide-react";
+import { ArrowRight, BadgeCheck, Handshake, MessageSquare, Sparkles, Target } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SectionLabel } from "@/components/ui/badge";
@@ -33,18 +32,30 @@ const VALUES = [
   },
 ];
 
+const GLANCE = [
+  { label: "Internship domains", value: "12+" },
+  { label: "Students certified", value: "1,200+" },
+  { label: "Verifiable online", value: "100%" },
+];
+
+const SLOTS = ["10:00 AM", "11:30 AM", "2:00 PM"];
+
 export default function AboutPage() {
   return (
     <main>
       <section className="relative overflow-hidden px-4 pb-20 pt-16 sm:pt-24">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(circle_at_top,rgba(0,82,255,0.08),transparent_60%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(circle_at_top,rgba(0,107,255,0.12),transparent_60%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-[8%] bottom-0 -z-10 h-64 w-64 rounded-full bg-[var(--blob-cyan)]/15 blur-[100px]"
         />
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
           <FadeInUp>
             <SectionLabel>About us</SectionLabel>
-            <h1 className="mt-6 font-display text-4xl leading-[1.1] text-foreground sm:text-5xl">
+            <h1 className="mt-6 text-heading-sm font-bold leading-[1.1] text-foreground sm:text-heading">
               Built by people who take{" "}
               <span className="text-gradient-accent">internships seriously</span>
             </h1>
@@ -64,19 +75,22 @@ export default function AboutPage() {
           </FadeInUp>
 
           <FadeInUp delay={0.1} className="relative">
-            <div className="relative overflow-hidden rounded-tl-[4rem] rounded-br-[4rem] rounded-tr-2xl rounded-bl-2xl shadow-xl">
-              <Image
-                src="/images/hero-students.jpg"
-                alt="Students reviewing project work together on a laptop"
-                width={900}
-                height={1000}
-                className="aspect-[4/5] w-full object-cover"
-                priority
-              />
-            </div>
-            <div className="absolute -bottom-6 -left-6 hidden rounded-xl border border-border bg-card px-5 py-4 shadow-xl sm:block">
-              <p className="font-display text-2xl text-gradient-accent">1,200+</p>
-              <p className="text-xs text-muted-foreground">students certified</p>
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-product">
+              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
+                <BadgeCheck className="h-4 w-4 text-accent" />
+                <p className="text-xs font-semibold text-foreground">Program at a glance</p>
+              </div>
+              <div className="space-y-3 p-5">
+                {GLANCE.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex items-center justify-between gap-3 rounded-lg border border-border px-4 py-3"
+                  >
+                    <span className="text-sm font-medium text-foreground">{stat.label}</span>
+                    <span className="font-display text-lg font-bold text-accent">{stat.value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </FadeInUp>
         </div>
@@ -84,20 +98,35 @@ export default function AboutPage() {
 
       <section className="border-t border-border bg-muted/40 px-4 py-24">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-          <FadeInUp className="order-2 lg:order-1">
-            <div className="overflow-hidden rounded-2xl shadow-lg">
-              <Image
-                src="/images/library-laptop.jpg"
-                alt="Two students collaborating on coursework with a laptop"
-                width={900}
-                height={1100}
-                className="aspect-[4/5] w-full object-cover"
-              />
+          <FadeInUp className="relative order-2 lg:order-1">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-6 -left-6 -z-10 h-40 w-40 rounded-full bg-[var(--blob-magenta)]/10 blur-[70px]"
+            />
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
+              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
+                <MessageSquare className="h-4 w-4 text-accent" />
+                <p className="text-xs font-semibold text-foreground">Mentor review</p>
+              </div>
+              <div className="space-y-3 p-5">
+                <div className="rounded-lg border border-border px-4 py-3">
+                  <p className="text-sm font-medium text-foreground">Dashboard wireframes</p>
+                  <span className="mt-2 inline-flex items-center rounded-full bg-[var(--badge-tint)] px-2.5 py-0.5 text-xs font-medium text-accent-secondary">
+                    Approved
+                  </span>
+                </div>
+                <div className="rounded-lg bg-muted/60 px-4 py-3">
+                  <p className="text-xs font-semibold text-foreground">Mentor feedback</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    &ldquo;Clean structure and clear labeling — ready to move to the next task.&rdquo;
+                  </p>
+                </div>
+              </div>
             </div>
           </FadeInUp>
           <FadeInUp className="order-1 lg:order-2">
             <SectionLabel>Our approach</SectionLabel>
-            <h2 className="mt-5 font-display text-3xl text-foreground sm:text-[3.25rem]">
+            <h2 className="mt-5 text-heading-sm font-bold text-foreground sm:text-heading">
               Mentored, project-based, verifiable
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
@@ -113,7 +142,7 @@ export default function AboutPage() {
       <section className="mx-auto max-w-6xl px-4 py-24">
         <FadeInUp className="max-w-2xl">
           <SectionLabel>Why students choose us</SectionLabel>
-          <h2 className="mt-5 font-display text-3xl text-foreground sm:text-[3.25rem]">
+          <h2 className="mt-5 text-heading-sm font-bold text-foreground sm:text-heading">
             What we stand for
           </h2>
         </FadeInUp>
@@ -126,9 +155,9 @@ export default function AboutPage() {
                   <value.icon className="h-5 w-5" />
                 </span>
                 <div>
-                  <h3 className="text-base font-semibold tracking-[-0.01em] text-foreground">
+                  <p className="text-base font-semibold tracking-[-0.01em] text-foreground">
                     {value.title}
-                  </h3>
+                  </p>
                   <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                     {value.description}
                   </p>
@@ -143,7 +172,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
           <FadeInUp>
             <SectionLabel>Talk to us</SectionLabel>
-            <h2 className="mt-5 font-display text-3xl text-foreground sm:text-[3.25rem]">
+            <h2 className="mt-5 text-heading-sm font-bold leading-[1.15] text-foreground sm:text-heading">
               Not sure which domain fits you?
             </h2>
             <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground">
@@ -158,15 +187,31 @@ export default function AboutPage() {
               Get in touch
             </Link>
           </FadeInUp>
-          <FadeInUp delay={0.1}>
-            <div className="overflow-hidden rounded-2xl shadow-lg">
-              <Image
-                src="/images/video-call.jpg"
-                alt="A mentor call happening over video"
-                width={900}
-                height={700}
-                className="aspect-[4/3] w-full object-cover"
-              />
+          <FadeInUp delay={0.1} className="relative">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-6 -bottom-6 -z-10 h-40 w-40 rounded-full bg-[var(--blob-cyan)]/15 blur-[70px]"
+            />
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
+              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
+                <Handshake className="h-4 w-4 text-accent" />
+                <p className="text-xs font-semibold text-foreground">Book a call</p>
+              </div>
+              <div className="space-y-2 p-5">
+                {SLOTS.map((slot, i) => (
+                  <div
+                    key={slot}
+                    className={
+                      i === 0
+                        ? "flex items-center justify-between rounded-lg bg-accent px-4 py-3 text-sm font-medium text-white"
+                        : "flex items-center justify-between rounded-lg border border-border px-4 py-3 text-sm font-medium text-foreground"
+                    }
+                  >
+                    {slot}
+                    {i === 0 && <span className="text-xs font-semibold uppercase">Selected</span>}
+                  </div>
+                ))}
+              </div>
             </div>
           </FadeInUp>
         </div>

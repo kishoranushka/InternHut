@@ -1,27 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  /* Core surfaces */
-  --background: #fafafa;
-  --foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
+  /* Core surfaces — cool marble canvas */
+  --background: #f8f9fb;
+  --foreground: #0b3558;
+  --muted: #f0f3f8;
+  --muted-foreground: #476788;
+  --border: #d4e0ed;
   --card: #ffffff;
 
-  /* Electric Blue accent */
-  --accent: #0052ff;
-  --accent-secondary: #4d7cff;
+  /* Signal Blue accent system */
+  --accent: #006bff;
+  --accent-secondary: #004eba;
   --accent-foreground: #ffffff;
-  --ring: #0052ff;
+  --ring: #006bff;
+
+  /* Decorative blobs — atmosphere only, never functional fills */
+  --blob-magenta: #e55cff;
+  --blob-cyan: #0099ff;
+  --badge-tint: #e6f0ff;
 
   /* Status */
-  --success: #2e7d32;
-  --error: #c0392b;
+  --success: #15803d;
+  --error: #b91c1c;
 
-  /* Shadows */
-  --shadow-accent: 0 4px 14px rgba(0, 82, 255, 0.25);
-  --shadow-accent-lg: 0 8px 24px rgba(0, 82, 255, 0.35);
+  /* Blue-tinted elevation, never neutral black */
+  --shadow-card: 0 4px 5px rgba(71, 103, 136, 0.04), 0 4px 10px rgba(71, 103, 136, 0.03),
+    0 10px 20px rgba(71, 103, 136, 0.05);
+  --shadow-product: 0 4px 5px rgba(71, 103, 136, 0.04), 0 8px 15px rgba(71, 103, 136, 0.03),
+    0 30px 50px rgba(71, 103, 136, 0.08);
+  --shadow-button: 0 4px 5px rgba(71, 103, 136, 0.04), 0 8px 15px rgba(71, 103, 136, 0.03),
+    0 15px 30px rgba(71, 103, 136, 0.06);
 }
 
 @theme inline {
@@ -37,12 +46,38 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
 
+  --color-blob-magenta: var(--blob-magenta);
+  --color-blob-cyan: var(--blob-cyan);
+  --color-badge-tint: var(--badge-tint);
+
   --color-success: var(--success);
   --color-error: var(--error);
 
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-calistoga);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-manrope);
   --font-mono: var(--font-jetbrains-mono);
+
+  /* Type scale — DESIGN.md's Gilroy scale (Manrope substitute) */
+  --text-caption: 0.75rem; /* 12px */
+  --text-caption--line-height: 1.5;
+  --text-body-sm: 0.875rem; /* 14px */
+  --text-body-sm--line-height: 1.4;
+  --text-body: 1rem; /* 16px */
+  --text-body--line-height: 1.5;
+  --text-button: 1.125rem; /* 18px */
+  --text-button--line-height: 1.6;
+  --text-body-lg: 1.25rem; /* 20px */
+  --text-body-lg--line-height: 1.4;
+  --text-subheading: 1.75rem; /* 28px */
+  --text-subheading--line-height: 1.4;
+  --text-heading-sm: 2.375rem; /* 38px */
+  --text-heading-sm--line-height: 1.21;
+  --text-heading: 3.125rem; /* 50px */
+  --text-heading--line-height: 1.2;
+  --text-heading-lg: 4.25rem; /* 68px */
+  --text-heading-lg--line-height: 1.2;
+  --text-display: 5rem; /* 80px */
+  --text-display--line-height: 1.2;
 }
 
 body {
@@ -51,36 +86,29 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* Signature gradient, reused across buttons, badges, borders, text */
+/* Flat accent fills — no gradients, per design system */
 .bg-gradient-accent {
-  background-image: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  background-color: var(--accent);
 }
 
 .text-gradient-accent {
-  background-image: linear-gradient(to right, var(--accent), var(--accent-secondary));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--accent);
 }
 
 .gradient-underline {
   position: absolute;
   bottom: -0.25rem;
   left: 0;
-  height: 0.75rem;
+  height: 0.5rem;
   width: 100%;
   border-radius: 0.125rem;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 82, 255, 0.15),
-    rgba(77, 124, 255, 0.1)
-  );
+  background-color: rgba(0, 107, 255, 0.16);
 }
 
 @media (min-width: 768px) {
   .gradient-underline {
-    bottom: -0.5rem;
-    height: 1rem;
+    bottom: -0.4rem;
+    height: 0.65rem;
   }
 }
 
@@ -91,11 +119,15 @@ body {
 }
 
 .shadow-accent {
-  box-shadow: var(--shadow-accent);
+  box-shadow: var(--shadow-card);
 }
 
 .shadow-accent-lg {
-  box-shadow: var(--shadow-accent-lg);
+  box-shadow: var(--shadow-button);
+}
+
+.shadow-product {
+  box-shadow: var(--shadow-product);
 }
 
 @media (prefers-reduced-motion: reduce) {

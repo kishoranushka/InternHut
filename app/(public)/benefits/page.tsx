@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,6 +7,7 @@ import {
   FileText,
   MessageSquare,
   Network,
+  ShieldCheck,
   Wallet,
 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -62,18 +62,28 @@ const INCLUDED = [
   "Access to a community of alumni from your domain",
 ];
 
+const CHECKLIST = [
+  { label: "Project brief", done: true },
+  { label: "Mentor assigned", done: true },
+  { label: "Certificate & LOR", done: false },
+];
+
 export default function BenefitsPage() {
   return (
     <main>
       <section className="relative overflow-hidden px-4 pb-20 pt-16 sm:pt-24">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(0,82,255,0.08),transparent_60%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(0,107,255,0.12),transparent_60%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-[8%] bottom-0 -z-10 h-64 w-64 rounded-full bg-[var(--blob-magenta)]/10 blur-[100px]"
         />
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
           <FadeInUp>
             <SectionLabel>Benefits</SectionLabel>
-            <h1 className="mt-6 font-display text-4xl leading-[1.1] text-foreground sm:text-5xl">
+            <h1 className="mt-6 text-heading-sm font-bold leading-[1.1] text-foreground sm:text-heading">
               Everything included,{" "}
               <span className="text-gradient-accent">nothing hidden</span>
             </h1>
@@ -91,15 +101,30 @@ export default function BenefitsPage() {
           </FadeInUp>
 
           <FadeInUp delay={0.1}>
-            <div className="overflow-hidden rounded-2xl shadow-xl">
-              <Image
-                src="/images/mentor-teaching.jpg"
-                alt="A mentor guiding a student through their work"
-                width={900}
-                height={700}
-                className="aspect-[4/3] w-full object-cover"
-                priority
-              />
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
+              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
+                <CheckCircle2 className="h-4 w-4 text-accent" />
+                <p className="text-xs font-semibold text-foreground">What you get</p>
+              </div>
+              <div className="space-y-3 p-5">
+                {CHECKLIST.map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-center justify-between gap-3 rounded-lg border border-border px-4 py-3"
+                  >
+                    <span className="text-sm font-medium text-foreground">{item.label}</span>
+                    <span
+                      className={
+                        item.done
+                          ? "inline-flex items-center rounded-full bg-[var(--badge-tint)] px-2.5 py-0.5 text-xs font-medium text-accent-secondary"
+                          : "inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground"
+                      }
+                    >
+                      {item.done ? "Included" : "On completion"}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </FadeInUp>
         </div>
@@ -109,7 +134,7 @@ export default function BenefitsPage() {
         <div className="mx-auto max-w-6xl">
           <FadeInUp className="max-w-2xl">
             <SectionLabel>What you get</SectionLabel>
-            <h2 className="mt-5 font-display text-3xl text-foreground sm:text-[3.25rem]">
+            <h2 className="mt-5 text-heading-sm font-bold text-foreground sm:text-heading">
               Six things every internship includes
             </h2>
           </FadeInUp>
@@ -121,9 +146,9 @@ export default function BenefitsPage() {
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-accent text-white">
                     <benefit.icon className="h-5 w-5" />
                   </span>
-                  <h3 className="mt-4 text-base font-semibold tracking-[-0.01em] text-foreground">
+                  <p className="mt-4 text-base font-semibold tracking-[-0.01em] text-foreground">
                     {benefit.title}
-                  </h3>
+                  </p>
                   <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                     {benefit.description}
                   </p>
@@ -138,7 +163,7 @@ export default function BenefitsPage() {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <FadeInUp>
             <SectionLabel>In every internship</SectionLabel>
-            <h2 className="mt-5 font-display text-3xl leading-[1.15] text-foreground sm:text-[3.25rem]">
+            <h2 className="mt-5 text-heading-sm font-bold leading-[1.15] text-foreground sm:text-heading">
               What&apos;s included, always
             </h2>
             <ul className="mt-6 space-y-3">
@@ -150,15 +175,28 @@ export default function BenefitsPage() {
               ))}
             </ul>
           </FadeInUp>
-          <FadeInUp delay={0.1}>
-            <div className="overflow-hidden rounded-tl-2xl rounded-tr-[4rem] rounded-br-2xl rounded-bl-[4rem] shadow-lg">
-              <Image
-                src="/images/student-presentation.jpg"
-                alt="A student presenting their completed work"
-                width={900}
-                height={1000}
-                className="aspect-[4/5] w-full object-cover"
-              />
+          <FadeInUp delay={0.1} className="relative">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-6 -top-6 -z-10 h-40 w-40 rounded-full bg-[var(--blob-cyan)]/15 blur-[70px]"
+            />
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
+              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
+                <ShieldCheck className="h-4 w-4 text-accent" />
+                <p className="text-xs font-semibold text-foreground">Certificate</p>
+              </div>
+              <div className="space-y-4 p-6">
+                <div className="flex items-center gap-3 rounded-lg border border-border px-4 py-3">
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Genuine certificate</p>
+                    <p className="font-mono text-xs text-muted-foreground">CERT-7K9M2-QX4RT</p>
+                  </div>
+                </div>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Includes a letter of recommendation and a code anyone can verify online.
+                </p>
+              </div>
             </div>
           </FadeInUp>
         </div>
@@ -168,7 +206,7 @@ export default function BenefitsPage() {
         <div className="bg-dot-grid pointer-events-none absolute inset-0 opacity-[0.03]" />
         <div className="pointer-events-none absolute left-0 top-0 h-72 w-72 rounded-full bg-accent/20 blur-[150px]" />
         <FadeInUp className="relative mx-auto max-w-2xl">
-          <h2 className="font-display text-3xl sm:text-[3.25rem]">
+          <h2 className="text-heading-sm font-bold sm:text-heading">
             Ready to see it for yourself?
           </h2>
           <p className="mt-4 text-lg text-white/70">

@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { CheckCircle2, Search, ShieldAlert, ShieldX } from "lucide-react";
+import { CheckCircle2, Search, ShieldAlert, ShieldCheck, ShieldX } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,12 +26,16 @@ export default async function VerifyCertificatePage({
       <section className="relative overflow-hidden px-4 pb-20 pt-16 sm:pt-24">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(0,82,255,0.08),transparent_60%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(0,107,255,0.12),transparent_60%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-[8%] bottom-0 -z-10 h-64 w-64 rounded-full bg-[var(--blob-magenta)]/10 blur-[100px]"
         />
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
           <FadeInUp>
             <SectionLabel>Verify a certificate</SectionLabel>
-            <h1 className="mt-6 font-display text-4xl leading-[1.1] text-foreground sm:text-5xl">
+            <h1 className="mt-6 text-heading-sm font-bold leading-[1.1] text-foreground sm:text-heading">
               Every certificate is checkable, in seconds
             </h1>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
@@ -43,15 +46,23 @@ export default async function VerifyCertificatePage({
           </FadeInUp>
 
           <FadeInUp delay={0.1}>
-            <div className="overflow-hidden rounded-2xl shadow-xl">
-              <Image
-                src="/images/certificate-holder.jpg"
-                alt="A completed internship certificate"
-                width={900}
-                height={700}
-                className="aspect-[4/3] w-full object-cover"
-                priority
-              />
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
+              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
+                <ShieldCheck className="h-4 w-4 text-accent" />
+                <p className="text-xs font-semibold text-foreground">Verification result</p>
+              </div>
+              <div className="space-y-4 p-6">
+                <div className="flex items-center gap-3 rounded-lg border border-border px-4 py-3">
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">This certificate is genuine</p>
+                    <p className="font-mono text-xs text-muted-foreground">CERT-7K9M2-QX4RT</p>
+                  </div>
+                </div>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Instant lookup against our certificate records — no login required.
+                </p>
+              </div>
             </div>
           </FadeInUp>
         </div>

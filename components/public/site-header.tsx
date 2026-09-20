@@ -22,15 +22,15 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <div className="mx-auto grid h-16 max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-accent text-sm font-semibold text-accent-foreground">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-accent-foreground">
             I
           </span>
-          <span className="font-display text-xl text-foreground">InternCert</span>
+          <span className="font-display text-xl font-bold text-foreground">InternCert</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 text-sm font-medium text-foreground lg:flex xl:gap-8">
+        <nav className="hidden items-center justify-center gap-7 text-body-sm font-medium text-foreground lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -45,24 +45,24 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="flex items-center justify-end gap-2">
           <Link
             href="/internships"
-            className={buttonVariants({ variant: "primary", size: "sm" })}
+            className={cn(buttonVariants({ variant: "primary", size: "sm" }), "hidden lg:inline-flex")}
           >
             Browse internships
           </Link>
-        </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground hover:bg-muted lg:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground hover:bg-muted lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -74,7 +74,7 @@ export function SiteHeader() {
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted",
+                  "rounded-lg px-3 py-2.5 text-body-sm font-medium text-foreground hover:bg-muted",
                   pathname === link.href && "bg-accent/5 text-accent",
                 )}
               >

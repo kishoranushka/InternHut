@@ -30,7 +30,7 @@ export function InternshipCard({ internship }: { internship: InternshipCardData 
             </Badge>
           ))}
         </div>
-        <h3 className="relative font-display text-lg text-foreground">
+        <h3 className="relative font-display text-2xl font-bold text-foreground">
           {internship.title}
         </h3>
         <p className="relative mt-1 flex-1 text-sm text-muted-foreground">
