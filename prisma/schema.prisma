@@ -69,6 +69,18 @@ model AdminUser {
   lastLoginAt  DateTime?
 }
 
+model Student {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  phone        String?
+  createdAt    DateTime  @default(now())
+  lastLoginAt  DateTime?
+
+  applications Application[]
+}
+
 model Internship {
   id                String              @id @default(cuid())
   slug              String              @unique
@@ -99,6 +111,9 @@ model Application {
   internshipId  String
   internship    Internship         @relation(fields: [internshipId], references: [id])
 
+  studentId     String?
+  student       Student?           @relation(fields: [studentId], references: [id])
+
   studentName   String
   studentEmail  String
   studentPhone  String
@@ -115,6 +130,7 @@ model Application {
   callBookings CallBooking[]
 
   @@index([studentEmail])
+  @@index([studentId])
   @@index([internshipId, status])
 }
 

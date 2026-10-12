@@ -2,7 +2,12 @@ import "server-only";
 import { cache } from "react";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { decryptAdminSession, readAdminSessionToken } from "@/lib/session";
+import {
+  decryptAdminSession,
+  readAdminSessionToken,
+  decryptStudentSession,
+  readStudentSessionToken,
+} from "@/lib/session";
 
 /**
  * Data Access Layer: the single place that decides whether the current
@@ -38,4 +43,38 @@ export const getCurrentAdmin = cache(async () => {
     redirect("/admin/login");
   }
   return admin;
+});
+
+/**
+ * Same contract as the admin session helpers above, for the student-facing
+ * dashboard: /login, /register, /dashboard.
+ */
+
+/** Returns the current student session, or null if not logged in. */
+export const getStudentSession = cache(async () => {
+  const sessionToken = await readStudentSessionToken();
+  const session = await decryptStudentSession(sessionToken);
+  return session?.studentId ? session : null;
+});
+
+/** Returns the current student session, redirecting to /login if absent. */
+export const requireStudentSession = cache(async () => {
+  const session = await getStudentSession();
+  if (!session) {
+    redirect("/login");
+  }
+  return session;
+});
+
+/** Loads the logged-in student's profile, redirecting to /login if not authenticated. */
+export const getCurrentStudent = cache(async () => {
+  const session = await requireStudentSession();
+  const student = await prisma.student.findUnique({
+    where: { id: session.studentId },
+    select: { id: true, name: true, email: true, phone: true },
+  });
+  if (!student) {
+    redirect("/login");
+  }
+  return student;
 });

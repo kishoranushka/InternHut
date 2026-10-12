@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getStudentSession } from "@/lib/dal";
 import { ApplicationForm } from "@/components/public/application-form";
 import { Card } from "@/components/ui/card";
 
@@ -15,6 +16,14 @@ export default async function ApplyPage({
     notFound();
   }
 
+  const session = await getStudentSession();
+  const student = session
+    ? await prisma.student.findUnique({
+        where: { id: session.studentId },
+        select: { name: true, email: true, phone: true },
+      })
+    : null;
+
   return (
     <div className="mx-auto max-w-xl px-4 py-16">
       <h1 className="font-display text-2xl text-foreground sm:text-3xl">{internship.title}</h1>
@@ -25,6 +34,7 @@ export default async function ApplyPage({
         <ApplicationForm
           internshipId={internship.id}
           internshipSlug={internship.slug}
+          defaultValues={student ?? undefined}
         />
       </Card>
     </div>

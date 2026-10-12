@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getStudentSession } from "@/lib/dal";
 import {
   applicationFormSchema,
   parseApplicationFormData,
@@ -23,11 +24,14 @@ export async function submitApplication(
   const { internshipId, internshipSlug, message, ...studentDetails } =
     parsedFields.data;
 
+  const session = await getStudentSession();
+
   await prisma.application.create({
     data: {
       internshipId,
       message,
       source: message ? "query_form" : "direct_apply",
+      studentId: session?.studentId,
       ...studentDetails,
     },
   });

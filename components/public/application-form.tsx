@@ -17,9 +17,11 @@ const COURSE_OPTIONS = COURSE_ELIGIBILITY;
 export function ApplicationForm({
   internshipId,
   internshipSlug,
+  defaultValues,
 }: {
   internshipId: string;
   internshipSlug: string;
+  defaultValues?: { name: string; email: string; phone: string | null };
 }) {
   const [state, formAction, isPending] = useActionState<
     ApplicationFormState,
@@ -33,15 +35,32 @@ export function ApplicationForm({
 
       <div>
         <Label htmlFor="studentName">Full name</Label>
-        <Input id="studentName" name="studentName" required />
+        <Input
+          id="studentName"
+          name="studentName"
+          defaultValue={defaultValues?.name}
+          required
+        />
       </div>
       <div>
         <Label htmlFor="studentEmail">Email</Label>
-        <Input id="studentEmail" name="studentEmail" type="email" required />
+        <Input
+          id="studentEmail"
+          name="studentEmail"
+          type="email"
+          defaultValue={defaultValues?.email}
+          required
+        />
       </div>
       <div>
         <Label htmlFor="studentPhone">Phone</Label>
-        <Input id="studentPhone" name="studentPhone" type="tel" required />
+        <Input
+          id="studentPhone"
+          name="studentPhone"
+          type="tel"
+          defaultValue={defaultValues?.phone ?? undefined}
+          required
+        />
       </div>
       <div>
         <Label htmlFor="studentCourse">Your course</Label>
