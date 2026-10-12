@@ -26,6 +26,24 @@ enum InternshipStatus {
   ARCHIVED
 }
 
+enum InternshipMode {
+  REMOTE
+  HYBRID
+  ON_CAMPUS
+}
+
+enum InternshipLevel {
+  BEGINNER
+  INTERMEDIATE
+}
+
+enum ContactPath {
+  STUDENT
+  INSTITUTION
+  COMPANY
+  GENERAL
+}
+
 enum ApplicationStatus {
   NEW
   CONTACTED
@@ -89,7 +107,15 @@ model Internship {
   description       String
   courseEligibility CourseEligibility[]
   category          String
+  mode              InternshipMode      @default(REMOTE)
+  level             InternshipLevel     @default(BEGINNER)
+  tags              String[]
+  partnerCompany    String?
+  partnerIndustry   String?
+  partnerCity       String?
+  partnerDescription String?
   durationWeeks     Int
+  weeklyEffortHours String?
   priceInPaise      Int
   currency          String              @default("INR")
   seatsTotal        Int
@@ -99,6 +125,15 @@ model Internship {
   startDate         DateTime?
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
+
+  // Rich detail-page content. Each is a JSON array; shapes documented in
+  // lib/validation/internship-content.ts (the single place that parses them).
+  overview          String[]
+  learningOutcomes  String[]
+  deliverables      Json?
+  weeklyPlan        Json?
+  eligibility       Json?
+  faqs              Json?
 
   applications Application[]
   certificates Certificate[]
@@ -243,4 +278,45 @@ model AdminAlert {
   readAt    DateTime?
 
   @@index([isRead, createdAt])
+}
+
+model PartnershipEnquiry {
+  id String @id @default(cuid())
+
+  institutionName String
+  city            String?
+  state           String?
+
+  contactName String
+  role        String?
+  email       String
+  phone       String?
+
+  departments        String[]
+  studentCountRange  String?
+  preferredStart     String?
+  message            String?
+
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model ContactMessage {
+  id    String      @id @default(cuid())
+  path  ContactPath
+
+  name         String
+  email        String
+  organisation String?
+  role         String?
+  phone        String?
+  topic        String
+  message      String
+
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([path, createdAt])
 }

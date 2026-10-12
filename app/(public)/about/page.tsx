@@ -1,219 +1,217 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Handshake, MessageSquare, Sparkles, Target } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { SectionLabel } from "@/components/ui/badge";
-import { FadeInUp, Stagger, StaggerItem } from "@/components/public/motion";
+import { ROUTES } from "@/lib/routes";
 
-const VALUES = [
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "InternSetu connects college students with partner companies for guided, project-based internships — and turns the outcome into a certificate anyone can verify.",
+};
+
+const PRINCIPLES = [
   {
-    icon: Target,
-    title: "Real project work",
-    description:
-      "Every internship maps to tasks a working team would actually assign — not filler assignments.",
+    number: "01",
+    title: "Real companies, real work",
+    body: "Every internship is with a vetted partner company and built around a project with concrete deliverables.",
+    emphasised: true,
   },
   {
-    icon: BadgeCheck,
-    title: "Verified credentials",
-    description:
-      "Every certificate carries a unique code anyone can check on our verification page.",
+    number: "02",
+    title: "Feedback is the product",
+    body: "Written, specific mentor feedback on every milestone is the core of what students pay for.",
   },
   {
-    icon: Handshake,
-    title: "A call before you commit",
-    description:
-      "Book a short call with our team to ask questions before you enroll in anything.",
+    number: "03",
+    title: "Criteria in the open",
+    body: "Briefs, rubrics and completion criteria are published before anyone enrols or applies.",
   },
   {
-    icon: Sparkles,
-    title: "Built for every course",
-    description:
-      "BBA, BCom, BCA, BSc and more — domains are chosen so non-CS students can succeed too.",
+    number: "04",
+    title: "Certificates that hold up",
+    body: "Issued only on completion, verifiable by anyone, and revoked if they were issued in error.",
+  },
+  {
+    number: "05",
+    title: "Honest about outcomes",
+    body: "We describe what a programme involves and what it records — never promised jobs, salaries or placements.",
   },
 ];
 
-const GLANCE = [
-  { label: "Internship domains", value: "12+" },
-  { label: "Students certified", value: "1,200+" },
-  { label: "Verifiable online", value: "100%" },
+const WE_WILL = [
+  "Publish fees, briefs and criteria before you apply",
+  "Review every submission against its rubric",
+  "Keep every certificate verifiable",
+  "Use your data only to run your programme",
 ];
 
-const SLOTS = ["10:00 AM", "11:30 AM", "2:00 PM"];
+const WE_WONT = [
+  "Promise jobs, placements or salaries",
+  "Issue certificates for payment or attendance alone",
+  "List any company or institution as a partner without written agreement",
+  "Sell or share student data",
+];
+
+const AUDIENCES = [
+  {
+    eyebrow: "For students",
+    body: "Build one serious project, with someone who knows the field reviewing it.",
+    cta: "Explore internships",
+    href: ROUTES.internships,
+    variant: "white" as const,
+  },
+  {
+    eyebrow: "For colleges",
+    body: "Offer supervised, reportable internships without building the programme yourself.",
+    cta: "Partner with us",
+    href: ROUTES.colleges,
+    variant: "outline-navy" as const,
+  },
+  {
+    eyebrow: "For companies",
+    body: "Mentor motivated students on a project you define — we handle the rest.",
+    cta: "Become a partner company",
+    href: ROUTES.partners,
+    variant: "outline-navy" as const,
+  },
+];
 
 export default function AboutPage() {
   return (
     <main>
-      <section className="relative overflow-hidden px-4 pb-20 pt-16 sm:pt-24">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(circle_at_top,rgba(0,107,255,0.12),transparent_60%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-[8%] bottom-0 -z-10 h-64 w-64 rounded-full bg-[var(--blob-cyan)]/15 blur-[100px]"
-        />
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-          <FadeInUp>
-            <SectionLabel>About us</SectionLabel>
-            <h1 className="mt-6 text-heading-sm font-bold leading-[1.1] text-foreground sm:text-heading">
-              Built by people who take{" "}
-              <span className="text-gradient-accent">internships seriously</span>
-            </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              We started this program because too many &ldquo;internship
-              certificates&rdquo; are worth the paper they&apos;re printed on.
-              Ours are backed by real project work, a real mentor, and a
-              verification page anyone — including a future employer — can use.
-            </p>
-            <Link
-              href="/internships"
-              className={buttonVariants({ variant: "primary", size: "lg", className: "group mt-8" })}
-            >
-              Browse internships
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </FadeInUp>
-
-          <FadeInUp delay={0.1} className="relative">
-            <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-product">
-              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
-                <BadgeCheck className="h-4 w-4 text-accent" />
-                <p className="text-xs font-semibold text-foreground">Program at a glance</p>
-              </div>
-              <div className="space-y-3 p-5">
-                {GLANCE.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border px-4 py-3"
-                  >
-                    <span className="text-sm font-medium text-foreground">{stat.label}</span>
-                    <span className="font-display text-lg font-bold text-accent">{stat.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </FadeInUp>
+      <section className="relative overflow-hidden px-section-x pt-[clamp(64px,10vw,144px)] pb-[clamp(64px,8vw,112px)]">
+        <svg
+          width="352"
+          height="352"
+          viewBox="0 0 352 352"
+          aria-hidden="true"
+          className="absolute top-[clamp(48px,7vw,96px)] right-[clamp(20px,5vw,96px)] hidden stack:block"
+        >
+          <g stroke="var(--border)" fill="none">
+            <path d="M0.5 0.5H351.5V351.5H0.5Z" />
+            <path d="M88.5 0V352M176.5 0V352M264.5 0V352M0 88.5H352M0 176.5H352M0 264.5H352" />
+          </g>
+          <rect x="177" y="89" width="87" height="87" fill="var(--accent)" />
+        </svg>
+        <div className="relative mx-auto flex max-w-content flex-col gap-9">
+          <span className="eyebrow flex items-center gap-3">
+            <span className="block size-2 bg-accent" />
+            About InternSetu
+          </span>
+          <h1 className="m-0 max-w-[960px] text-balance text-[clamp(44px,6.4vw,92px)] font-bold leading-[0.98] tracking-[-0.05em]">
+            A credential should describe what someone can actually do.
+          </h1>
+          <p className="m-0 max-w-[640px] text-[clamp(17px,1.5vw,20px)] font-medium leading-[1.6] text-body">
+            InternSetu connects college students with partner companies for
+            guided, project-based internships — and turns the outcome into a
+            certificate anyone can verify.
+          </p>
         </div>
       </section>
 
-      <section className="border-t border-border bg-muted/40 px-4 py-24">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-          <FadeInUp className="relative order-2 lg:order-1">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -top-6 -left-6 -z-10 h-40 w-40 rounded-full bg-[var(--blob-magenta)]/10 blur-[70px]"
-            />
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
-              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
-                <MessageSquare className="h-4 w-4 text-accent" />
-                <p className="text-xs font-semibold text-foreground">Mentor review</p>
-              </div>
-              <div className="space-y-3 p-5">
-                <div className="rounded-lg border border-border px-4 py-3">
-                  <p className="text-sm font-medium text-foreground">Dashboard wireframes</p>
-                  <span className="mt-2 inline-flex items-center rounded-full bg-[var(--badge-tint)] px-2.5 py-0.5 text-xs font-medium text-accent-secondary">
-                    Approved
-                  </span>
-                </div>
-                <div className="rounded-lg bg-muted/60 px-4 py-3">
-                  <p className="text-xs font-semibold text-foreground">Mentor feedback</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    &ldquo;Clean structure and clear labeling — ready to move to the next task.&rdquo;
-                  </p>
-                </div>
-              </div>
-            </div>
-          </FadeInUp>
-          <FadeInUp className="order-1 lg:order-2">
-            <SectionLabel>Our approach</SectionLabel>
-            <h2 className="mt-5 text-heading-sm font-bold text-foreground sm:text-heading">
-              Mentored, project-based, verifiable
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              Each internship is scoped by a mentor in that domain, delivered as
-              a series of real tasks, and reviewed before completion. When
-              you&apos;re done, we issue a certificate tied to a unique code —
-              not a template anyone could fake.
+      <section className="border-t border-border px-section-x py-section-y">
+        <div className="mx-auto flex max-w-content flex-wrap gap-x-wide gap-y-12">
+          <div className="flex flex-[3_1_240px] flex-col gap-3">
+            <span className="eyebrow">Mission</span>
+            <span className="text-ui leading-[1.6] text-muted-foreground">Why the platform exists</span>
+          </div>
+          <div className="grid min-w-0 flex-[9_1_560px] grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-x-12 gap-y-8">
+            <p className="col-span-full m-0 max-w-[880px] text-[clamp(22px,2.2vw,28px)] font-semibold leading-[1.35] tracking-[-0.015em]">
+              Our mission is to bring students and companies together around
+              real work — so students gain experience they can demonstrate,
+              companies meet emerging talent, and colleges get a structured
+              way to offer both.
             </p>
-          </FadeInUp>
+            <p className="m-0 text-ui leading-[1.7] text-body">
+              Many students finish their studies with knowledge but little
+              evidence of applied work. Companies want to offer internships
+              but lack the time to structure them. Colleges struggle to
+              source enough of them.
+            </p>
+            <p className="m-0 text-ui leading-[1.7] text-body">
+              We sit between all three: we vet partner companies, match
+              students to them, structure each internship around a defined
+              project, and only issue a certificate when the work has been
+              reviewed and completed.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-24">
-        <FadeInUp className="max-w-2xl">
-          <SectionLabel>Why students choose us</SectionLabel>
-          <h2 className="mt-5 text-heading-sm font-bold text-foreground sm:text-heading">
-            What we stand for
-          </h2>
-        </FadeInUp>
-
-        <Stagger className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {VALUES.map((value) => (
-            <StaggerItem key={value.title}>
-              <Card className="flex h-full items-start gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-accent text-white">
-                  <value.icon className="h-5 w-5" />
+      <section className="border-t border-border bg-muted px-section-x py-section-y">
+        <div className="mx-auto flex max-w-content flex-col gap-12">
+          <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
+            <h2 className="m-0 text-h2 font-bold">Principles</h2>
+            <p className="m-0 max-w-[440px] text-ui leading-[1.65] text-muted-foreground">
+              The rules we use to make decisions about programmes, reviews and certificates.
+            </p>
+          </div>
+          <ol className="m-0 flex list-none flex-col border-t border-navy p-0">
+            {PRINCIPLES.map((principle) => (
+              <li
+                key={principle.number}
+                className="grid grid-cols-1 items-baseline gap-x-10 gap-y-3 border-b border-border py-8 stack:grid-cols-[120px_minmax(0,1fr)_minmax(0,1.4fr)]"
+              >
+                <span
+                  className={`text-[56px] leading-none font-bold tracking-[-0.05em] ${principle.emphasised ? "text-accent" : "text-border-strong"}`}
+                >
+                  {principle.number}
                 </span>
-                <div>
-                  <p className="text-base font-semibold tracking-[-0.01em] text-foreground">
-                    {value.title}
-                  </p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                    {value.description}
-                  </p>
-                </div>
-              </Card>
-            </StaggerItem>
-          ))}
-        </Stagger>
+                <h3 className="m-0 text-xl font-bold tracking-[-0.015em]">{principle.title}</h3>
+                <p className="m-0 text-ui leading-[1.65] text-muted-foreground">{principle.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
-      <section className="border-t border-border bg-muted/40 px-4 py-24">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-          <FadeInUp>
-            <SectionLabel>Talk to us</SectionLabel>
-            <h2 className="mt-5 text-heading-sm font-bold leading-[1.15] text-foreground sm:text-heading">
-              Not sure which domain fits you?
-            </h2>
-            <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Book a short call before you enroll. We&apos;ll walk through your
-              course, your interests, and which internship actually makes
-              sense — no pressure to buy anything on the call.
-            </p>
-            <Link
-              href="/contact"
-              className={buttonVariants({ variant: "outline", size: "lg", className: "mt-8" })}
-            >
-              Get in touch
-            </Link>
-          </FadeInUp>
-          <FadeInUp delay={0.1} className="relative">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-6 -bottom-6 -z-10 h-40 w-40 rounded-full bg-[var(--blob-cyan)]/15 blur-[70px]"
-            />
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
-              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
-                <Handshake className="h-4 w-4 text-accent" />
-                <p className="text-xs font-semibold text-foreground">Book a call</p>
-              </div>
-              <div className="space-y-2 p-5">
-                {SLOTS.map((slot, i) => (
-                  <div
-                    key={slot}
-                    className={
-                      i === 0
-                        ? "flex items-center justify-between rounded-lg bg-accent px-4 py-3 text-sm font-medium text-white"
-                        : "flex items-center justify-between rounded-lg border border-border px-4 py-3 text-sm font-medium text-foreground"
-                    }
-                  >
-                    {slot}
-                    {i === 0 && <span className="text-xs font-semibold uppercase">Selected</span>}
-                  </div>
-                ))}
-              </div>
+      <section className="px-section-x py-section-y">
+        <div className="mx-auto flex max-w-content flex-col gap-12">
+          <h2 className="m-0 max-w-[720px] text-h2 font-bold">What you can hold us to</h2>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(420px,100%),1fr))] border-t border-navy">
+            <div className="flex flex-col gap-1 py-8 pr-[clamp(0px,3vw,48px)]">
+              <span className="mb-3 text-caption font-bold tracking-[0.14em] text-success uppercase">We will</span>
+              {WE_WILL.map((item, index) => (
+                <div key={item} className={`flex gap-3.5 py-3.5 text-ui leading-[1.5] ${index < WE_WILL.length - 1 ? "border-b border-border" : ""}`}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="mt-0.5 flex-none"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+                  {item}
+                </div>
+              ))}
             </div>
-          </FadeInUp>
+            <div className="flex flex-col gap-1 border-border py-8 pl-0 stack:border-l stack:pl-12">
+              <span className="mb-3 text-caption font-bold tracking-[0.14em] text-error uppercase">We won&apos;t</span>
+              {WE_WONT.map((item, index) => (
+                <div key={item} className={`flex gap-3.5 py-3.5 text-ui leading-[1.5] ${index < WE_WONT.length - 1 ? "border-b border-border" : ""}`}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--error)" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" className="mt-0.5 flex-none"><path d="M6 6l12 12M18 6L6 18" /></svg>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-navy px-section-x py-section-y-lg text-white">
+        <div className="mx-auto grid max-w-content grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-x-mid gap-y-12">
+          {AUDIENCES.map((audience) => (
+            <div key={audience.eyebrow} className="flex flex-col gap-4.5 border-t border-border-on-navy pt-6">
+              <span className="eyebrow-on-navy">{audience.eyebrow}</span>
+              <span className="text-[clamp(24px,2.4vw,32px)] font-bold leading-[1.2] tracking-[-0.02em]">{audience.body}</span>
+              <Link href={audience.href} className={`btn btn-${audience.variant} mt-2 self-start`}>
+                {audience.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-section-x py-[clamp(56px,7vw,88px)]">
+        <div className="mx-auto flex max-w-content flex-wrap items-center justify-between gap-6">
+          <span className="text-[clamp(20px,2vw,26px)] font-bold tracking-[-0.015em]">
+            Questions about how we work?
+          </span>
+          <Link href={ROUTES.contact} className="arrow-link text-lg">
+            Get in touch <i>&rarr;</i>
+          </Link>
         </div>
       </section>
     </main>

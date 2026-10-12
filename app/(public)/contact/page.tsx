@@ -1,116 +1,84 @@
-import { Clock, Mail, MessageCircle, Phone, Send } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { SectionLabel } from "@/components/ui/badge";
-import { FadeInUp, Stagger, StaggerItem } from "@/components/public/motion";
+import type { Metadata } from "next";
+import { ROUTES } from "@/lib/routes";
+import { ContactSection } from "@/components/public/contact/contact-section";
 
-// Placeholder contact details — replace with real ones before launch.
-const CONTACT_EMAIL = "hello@interncert.example";
-const CONTACT_PHONE = "+91 90000 00000";
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Choose who you are so your message reaches the right person at InternSetu — students, colleges, partner companies, or anyone else.",
+};
 
-const CHANNELS = [
-  {
-    icon: Mail,
-    title: "Email us",
-    detail: CONTACT_EMAIL,
-    href: `mailto:${CONTACT_EMAIL}`,
-    cta: "Send an email",
-  },
-  {
-    icon: Phone,
-    title: "Call or WhatsApp",
-    detail: CONTACT_PHONE,
-    href: `tel:${CONTACT_PHONE.replace(/\s+/g, "")}`,
-    cta: "Call now",
-  },
-  {
-    icon: MessageCircle,
-    title: "Ask before you enroll",
-    detail: "Have a question about a specific internship?",
-    href: "/internships",
-    cta: "Browse internships",
-  },
+const DIRECT_CHANNELS = [
+  { label: "Students", value: "[students email]" },
+  { label: "Colleges & partnerships", value: "[partnerships email]" },
+  { label: "Partner companies", value: "[companies email]" },
+  { label: "Everything else", value: "[general email] · [phone]" },
+  { label: "Office", value: "[Registered address]\n[City, State, PIN]" },
+];
+
+const RELATED_LINKS = [
+  { label: "Verify a certificate", href: ROUTES.verify },
+  { label: "Eligibility, fees & FAQs", href: ROUTES.internships },
+  { label: "How internships work", href: ROUTES.learning },
 ];
 
 export default function ContactPage() {
   return (
     <main>
-      <section className="relative overflow-hidden px-4 pb-20 pt-16 sm:pt-24">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(0,107,255,0.12),transparent_60%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-[8%] bottom-0 -z-10 h-64 w-64 rounded-full bg-[var(--blob-cyan)]/15 blur-[100px]"
-        />
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
-          <FadeInUp>
-            <SectionLabel>Contact</SectionLabel>
-            <h1 className="mt-6 text-heading-sm font-bold leading-[1.1] text-foreground sm:text-heading">
-              Let&apos;s talk about your internship
-            </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Questions about eligibility, a specific domain, or how the
-              certificate verification works? Reach out — a real person reads
-              every message.
+      <section className="px-section-x pt-[clamp(48px,7vw,104px)] pb-[clamp(32px,4vw,48px)]">
+        <div className="mx-auto flex max-w-content flex-col gap-12">
+          <div className="flex flex-wrap items-end gap-x-wide gap-y-6">
+            <div className="flex flex-[7_1_520px] flex-col gap-6">
+              <span className="eyebrow flex items-center gap-3">
+                <span className="block size-2 bg-accent" />
+                Contact
+              </span>
+              <h1 className="m-0 text-[clamp(40px,5.4vw,72px)] font-bold leading-[1] tracking-[-0.045em]">
+                How can we help?
+              </h1>
+            </div>
+            <p className="m-0 flex-[5_1_340px] text-ui leading-[1.65] text-muted-foreground">
+              Choose who you are so your message reaches the right person. We
+              reply to every enquiry within a few working days.
             </p>
-            <div className="mt-8 flex items-center gap-2 text-sm text-muted-foreground">
-              <Clock className="h-4 w-4 text-accent" />
-              Mon&ndash;Sat, 10am&ndash;7pm IST
-            </div>
-          </FadeInUp>
+          </div>
 
-          <FadeInUp delay={0.1}>
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
-              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
-                <Send className="h-4 w-4 text-accent" />
-                <p className="text-xs font-semibold text-foreground">A real person replies</p>
-              </div>
-              <div className="space-y-3 p-5">
-                <div className="rounded-lg bg-muted/60 px-4 py-3">
-                  <p className="text-xs font-semibold text-foreground">You</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    &ldquo;Which domain suits a B.Com student?&rdquo;
-                  </p>
-                </div>
-                <div className="rounded-lg border border-border px-4 py-3">
-                  <p className="text-xs font-semibold text-accent">Team</p>
-                  <p className="mt-1 text-xs leading-relaxed text-foreground">
-                    &ldquo;Business &amp; Finance or Digital Marketing are great fits — happy to walk through both.&rdquo;
-                  </p>
-                </div>
-              </div>
-            </div>
-          </FadeInUp>
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-muted/40 px-4 py-24">
-        <div className="mx-auto max-w-6xl">
-          <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-            {CHANNELS.map((channel) => (
-              <StaggerItem key={channel.title}>
-                <Card className="flex h-full flex-col">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-accent text-white">
-                    <channel.icon className="h-5 w-5" />
+          <ContactSection
+            aside={
+              <div className="flex flex-col gap-8">
+                <div className="flex flex-col border-t border-navy">
+                  <span className="py-4 pb-2 text-caption font-bold tracking-[0.14em] text-muted-foreground uppercase">
+                    Write to us directly
                   </span>
-                  <p className="mt-4 text-base font-semibold tracking-[-0.01em] text-foreground">
-                    {channel.title}
-                  </p>
-                  <p className="mt-1.5 flex-1 text-sm text-muted-foreground">
-                    {channel.detail}
-                  </p>
-                  <a
-                    href={channel.href}
-                    className={buttonVariants({ variant: "outline", size: "sm", className: "mt-5" })}
-                  >
-                    {channel.cta}
-                  </a>
-                </Card>
-              </StaggerItem>
-            ))}
-          </Stagger>
+                  {DIRECT_CHANNELS.map((channel, index) => (
+                    <div
+                      key={channel.label}
+                      className={`flex flex-col gap-1 py-3.5 ${index < DIRECT_CHANNELS.length - 1 ? "border-b border-border" : ""}`}
+                    >
+                      <span className="text-sm font-bold">{channel.label}</span>
+                      <span className="whitespace-pre-line text-meta leading-[1.55] text-body">
+                        {channel.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col">
+                  <span className="pb-2 text-caption font-bold tracking-[0.14em] text-muted-foreground uppercase">
+                    You might be looking for
+                  </span>
+                  {RELATED_LINKS.map((link, index) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className={`hover-row flex items-center justify-between px-2 py-4 text-sm font-bold text-navy no-underline border-t border-border ${index === RELATED_LINKS.length - 1 ? "border-b" : ""}`}
+                    >
+                      {link.label} <span className="arrow">&rarr;</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            }
+          />
         </div>
       </section>
     </main>

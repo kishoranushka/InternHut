@@ -3,93 +3,134 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/cn";
-import { buttonVariants } from "@/components/ui/button";
+import { ROUTES } from "@/lib/routes";
+import {
+  NAV_ACTIVE_PATHS,
+  type MenuId,
+  type StartingSoonItem,
+} from "./header/nav-data";
+import { MegaInternships } from "./header/mega-internships";
+import { MegaColleges } from "./header/mega-colleges";
+import { MegaHow } from "./header/mega-how";
+import { MobileSheet } from "./header/mobile-sheet";
+import { ChevronDownIcon, MenuIcon, ShieldCheckIcon } from "./header/header-icons";
 
-const NAV_LINKS = [
-  { href: "/internships", label: "Internships" },
-  { href: "/benefits", label: "Benefits" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/about", label: "About" },
-  { href: "/verify", label: "Verify" },
-  { href: "/contact", label: "Contact" },
+const MENU_BUTTONS: { id: MenuId; label: string }[] = [
+  { id: "internships", label: "Internships" },
+  { id: "colleges", label: "For Colleges" },
+  { id: "how", label: "How it works" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({
+  isLoggedIn,
+  startingSoon,
+}: {
+  isLoggedIn: boolean;
+  startingSoon: StartingSoonItem[];
+}) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  /** Matches the mockup: clicking toggles, hovering only switches an already-open menu. */
+  const toggleMenu = (id: MenuId) =>
+    setOpenMenu((current) => (current === id ? null : id));
+
+  const hoverMenu = (id: MenuId) =>
+    setOpenMenu((current) => (current && current !== id ? id : current));
+
+  const currentFor = (key: string) =>
+    NAV_ACTIVE_PATHS[key]?.some((path) => pathname === path) ? "page" : "false";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto grid h-16 max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4">
-        <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-accent-foreground">
-            I
-          </span>
-          <span className="font-display text-xl font-bold text-foreground">InternCert</span>
-        </Link>
-
-        <nav className="hidden items-center justify-center gap-7 text-body-sm font-medium text-foreground lg:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "transition-colors hover:text-accent",
-                pathname === link.href && "text-accent",
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center justify-end gap-2">
+    <header
+      onMouseLeave={() => setOpenMenu(null)}
+      className="sticky top-0 z-50 border-b border-border bg-card text-navy"
+    >
+      <div className="mx-auto box-border flex h-20 max-w-header items-center justify-between gap-6 px-gutter">
+        <div className="flex items-center gap-14">
           <Link
-            href="/internships"
-            className={cn(buttonVariants({ variant: "primary", size: "sm" }), "hidden lg:inline-flex")}
+            href={ROUTES.home}
+            aria-label="InternSetu home"
+            className="text-[21px] font-bold tracking-[-0.025em] text-navy no-underline"
           >
-            Browse internships
+            InternSetu
           </Link>
 
+          <nav aria-label="Primary" className="hidden items-center gap-9 nav:flex">
+            {MENU_BUTTONS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="nav-link"
+                aria-expanded={openMenu === item.id}
+                data-current={currentFor(item.id)}
+                onClick={() => toggleMenu(item.id)}
+                onMouseEnter={() => hoverMenu(item.id)}
+              >
+                {item.label}
+                <ChevronDownIcon />
+              </button>
+            ))}
+            <Link
+              href={ROUTES.partners}
+              className="nav-link"
+              data-current={currentFor("partners")}
+            >
+              Partners
+            </Link>
+            <Link
+              href={ROUTES.about}
+              className="nav-link"
+              data-current={currentFor("about")}
+            >
+              About
+            </Link>
+          </nav>
+        </div>
+
+        <div className="hidden items-center gap-1 nav:flex">
+          <Link href={ROUTES.verify} className="btn btn-ghost-navy btn-sm">
+            <ShieldCheckIcon />
+            Verify certificate
+          </Link>
+          <span className="mx-2 block h-6 w-px bg-border" />
+          <Link
+            href={isLoggedIn ? ROUTES.dashboard : ROUTES.login}
+            className="btn btn-ghost-navy btn-sm"
+          >
+            {isLoggedIn ? "Dashboard" : "Log in"}
+          </Link>
+          <Link
+            href={ROUTES.internships}
+            className="btn btn-primary btn-sm ml-1"
+          >
+            Get started
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-2 nav:hidden">
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground hover:bg-muted lg:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
+            className="btn btn-outline btn-sm h-11 w-11 p-0"
+            aria-expanded={mobileOpen}
+            aria-label="Menu"
+            onClick={() => setMobileOpen((open) => !open)}
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <MenuIcon open={mobileOpen} />
           </button>
         </div>
       </div>
 
-      {open && (
-        <nav className="border-t border-border bg-background px-4 py-4 lg:hidden">
-          <div className="flex flex-col gap-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={cn(
-                  "rounded-lg px-3 py-2.5 text-body-sm font-medium text-foreground hover:bg-muted",
-                  pathname === link.href && "bg-accent/5 text-accent",
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/internships"
-              onClick={() => setOpen(false)}
-              className={buttonVariants({ variant: "primary", size: "sm", className: "mt-2" })}
-            >
-              Browse internships
-            </Link>
-          </div>
-        </nav>
+      {openMenu === "internships" && <MegaInternships startingSoon={startingSoon} />}
+      {openMenu === "colleges" && <MegaColleges />}
+      {openMenu === "how" && <MegaHow />}
+
+      {mobileOpen && (
+        <MobileSheet
+          isLoggedIn={isLoggedIn}
+          onNavigate={() => setMobileOpen(false)}
+        />
       )}
     </header>
   );

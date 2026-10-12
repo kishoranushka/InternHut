@@ -5,7 +5,7 @@ import "./globals.css";
 
 const manrope = Manrope({
   variable: "--font-manrope",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
 });
 
@@ -16,16 +16,16 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "InternCert | Verified Internship Certificates for UG & PG Students",
-    template: "%s | InternCert",
+    default: "InternSetu | Guided Internships with Partner Companies",
+    template: "%s | InternSetu",
   },
   description:
-    "Real, project based internships for BBA, B.Com, BCA, BSc, MBA and other UG and PG students. Complete mentor reviewed work and get a certificate anyone can verify online.",
+    "InternSetu connects college students with partner companies for guided, project-based internships — weekly milestones, mentor feedback and a certificate anyone can verify.",
   keywords: [
-    "online internship for college students",
+    "internship with partner companies",
     "verified internship certificate",
-    "internship for BBA BCom BCA BSc students",
-    "internship with certificate India",
+    "project based internship for college students",
+    "college internship programme India",
   ],
 };
 

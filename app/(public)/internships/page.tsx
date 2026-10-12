@@ -1,94 +1,35 @@
-import { prisma } from "@/lib/prisma";
-import { CourseEligibility } from "@/app/generated/prisma/client";
-import { InternshipCard } from "@/components/public/internship-card";
-import { Select } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { SectionLabel } from "@/components/ui/badge";
-import { FadeInUp, Stagger, StaggerItem } from "@/components/public/motion";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { ROUTES } from "@/lib/routes";
+import { getPublishedInternships } from "@/lib/queries/internships";
+import { CatalogueExplorer } from "@/components/public/catalogue/catalogue-explorer";
 
-const COURSE_OPTIONS = Object.values(CourseEligibility);
+export const metadata: Metadata = {
+  title: "Internships",
+  description:
+    "Guided internships with our partner companies, each built around one real project brief, with mentor reviews and a verifiable certificate on completion.",
+};
 
-export default async function BrowseInternshipsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ course?: string; category?: string }>;
-}) {
-  const { course, category } = await searchParams;
-
-  const [internships, categoryRows] = await Promise.all([
-    prisma.internship.findMany({
-      where: {
-        status: "PUBLISHED",
-        ...(course ? { courseEligibility: { has: course as (typeof COURSE_OPTIONS)[number] } } : {}),
-        ...(category ? { category } : {}),
-      },
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.internship.findMany({
-      where: { status: "PUBLISHED" },
-      distinct: ["category"],
-      select: { category: true },
-    }),
-  ]);
+export default async function CataloguePage() {
+  const internships = await getPublishedInternships();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
-      <FadeInUp>
-        <SectionLabel>Internships</SectionLabel>
-        <h1 className="mt-5 text-heading-sm font-bold text-foreground sm:text-heading">
-          Find your internship
-        </h1>
-        <p className="mt-3 max-w-xl text-muted-foreground">
-          Filter by your course or the domain you want to work in.
-        </p>
-      </FadeInUp>
+    <main>
+      <section className="border-b border-border px-section-x pt-[clamp(40px,6vw,72px)] pb-0">
+        <div className="mx-auto max-w-content">
+          <nav aria-label="Breadcrumb" className="mb-7 flex gap-2 text-meta font-semibold text-muted-foreground">
+            <Link href={ROUTES.home} className="text-muted-foreground no-underline">Home</Link>
+            <span aria-hidden="true">/</span>
+            <span className="text-navy">Internships</span>
+          </nav>
+        </div>
+      </section>
 
-      <FadeInUp delay={0.1}>
-        <form className="mt-8 flex flex-wrap items-end gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm" method="GET">
-          <div>
-            <Label htmlFor="course">Course</Label>
-            <Select id="course" name="course" defaultValue={course ?? ""} className="w-48">
-              <option value="">All courses</option>
-              {COURSE_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <div>
-            <Label htmlFor="category">Category</Label>
-            <Select id="category" name="category" defaultValue={category ?? ""} className="w-48">
-              <option value="">All categories</option>
-              {categoryRows.map(({ category: categoryName }) => (
-                <option key={categoryName} value={categoryName}>
-                  {categoryName}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <Button type="submit" variant="outline">
-            Apply filters
-          </Button>
-        </form>
-      </FadeInUp>
-
-      {internships.length === 0 ? (
-        <FadeInUp>
-          <p className="mt-10 text-sm text-muted-foreground">
-            No internships match these filters right now.
-          </p>
-        </FadeInUp>
-      ) : (
-        <Stagger className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {internships.map((internship) => (
-            <StaggerItem key={internship.id}>
-              <InternshipCard internship={internship} />
-            </StaggerItem>
-          ))}
-        </Stagger>
-      )}
-    </div>
+      <section className="px-section-x py-[clamp(32px,4vw,48px)] pb-[clamp(80px,9vw,120px)]">
+        <div className="mx-auto max-w-content">
+          <CatalogueExplorer internships={internships} />
+        </div>
+      </section>
+    </main>
   );
 }

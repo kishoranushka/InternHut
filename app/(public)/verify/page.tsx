@@ -1,17 +1,28 @@
-import { CheckCircle2, Search, ShieldAlert, ShieldCheck, ShieldX } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { SectionLabel } from "@/components/ui/badge";
-import { FadeInUp } from "@/components/public/motion";
+import { ROUTES } from "@/lib/routes";
+import { CopyLinkButton } from "@/components/public/verify/copy-link-button";
+
+export const metadata: Metadata = {
+  title: "Verify a certificate",
+  description:
+    "Check an InternSetu certificate by its ID. For employers, colleges and anyone reviewing a résumé.",
+};
 
 async function lookupCertificate(code: string) {
   return prisma.certificate.findUnique({
     where: { verificationCode: code.trim().toUpperCase() },
+    include: { internship: true },
   });
 }
+
+const WHAT_IT_CONFIRMS = [
+  { title: "Identity of the holder", body: "The name as it appears on the certificate." },
+  { title: "Internship and company", body: "Which internship was completed, with which partner company." },
+  { title: "Completion date", body: "When the final review was approved." },
+  { title: "Current status", body: "Valid or revoked — checked live, every time." },
+];
 
 export default async function VerifyCertificatePage({
   searchParams,
@@ -20,152 +31,212 @@ export default async function VerifyCertificatePage({
 }) {
   const { code } = await searchParams;
   const certificate = code ? await lookupCertificate(code) : null;
+  const shownId = code?.trim().toUpperCase() ?? "";
 
   return (
     <main>
-      <section className="relative overflow-hidden px-4 pb-20 pt-16 sm:pt-24">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(0,107,255,0.12),transparent_60%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-[8%] bottom-0 -z-10 h-64 w-64 rounded-full bg-[var(--blob-magenta)]/10 blur-[100px]"
-        />
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
-          <FadeInUp>
-            <SectionLabel>Verify a certificate</SectionLabel>
-            <h1 className="mt-6 text-heading-sm font-bold leading-[1.1] text-foreground sm:text-heading">
-              Every certificate is checkable, in seconds
+      <section className="bg-tint-50 px-section-x pt-[clamp(48px,7vw,104px)] pb-[clamp(64px,8vw,112px)]">
+        <div className="mx-auto flex max-w-content flex-wrap items-start gap-x-wide gap-y-12">
+          <div className="flex min-w-0 flex-[5_1_380px] flex-col gap-7">
+            <span className="eyebrow flex items-center gap-3 !text-accent-secondary">
+              <span className="block size-2 bg-accent" />
+              Certificate verification
+            </span>
+            <h1 className="m-0 text-balance text-h2-sm font-bold">
+              Check an InternSetu certificate.
             </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Enter the verification code printed on the certificate — it
-              looks like <span className="font-mono text-foreground">CERT-7K9M2-QX4RT</span>.
-              We&apos;ll tell you whether it&apos;s genuine.
+            <p className="m-0 text-body-lg leading-[1.65] text-muted-foreground">
+              For employers, colleges and anyone reviewing a résumé. Enter the ID
+              printed on the certificate.
             </p>
-          </FadeInUp>
-
-          <FadeInUp delay={0.1}>
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-product">
-              <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-5 py-4">
-                <ShieldCheck className="h-4 w-4 text-accent" />
-                <p className="text-xs font-semibold text-foreground">Verification result</p>
+            <form action="/verify" method="GET" role="search" className="mt-1 flex flex-col gap-2">
+              <label htmlFor="v-id" className="text-sm font-bold">Certificate ID</label>
+              <div className="flex flex-wrap gap-2">
+                <input
+                  id="v-id"
+                  name="code"
+                  type="text"
+                  defaultValue={code ?? ""}
+                  placeholder="CERT-XXXXX-XXXX"
+                  autoComplete="off"
+                  spellCheck={false}
+                  className="input tnum h-14 w-auto flex-[1_1_240px] text-lg font-semibold uppercase tracking-[0.04em]"
+                />
+                <button type="submit" className="btn btn-navy btn-lg h-14">Verify</button>
               </div>
-              <div className="space-y-4 p-6">
-                <div className="flex items-center gap-3 rounded-lg border border-border px-4 py-3">
-                  <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">This certificate is genuine</p>
-                    <p className="font-mono text-xs text-muted-foreground">CERT-7K9M2-QX4RT</p>
+              <span className="text-meta text-body">Letters are not case-sensitive.</span>
+            </form>
+          </div>
+
+          <div aria-live="polite" className="min-w-0 flex-[7_1_460px]">
+            {!code && (
+              <div className="flex min-h-[360px] flex-wrap items-center gap-8 rounded-card border border-dashed border-tint-200 bg-card p-[clamp(24px,4vw,48px)]">
+                <div className="relative aspect-[1.414/1] flex-[1_1_240px] border border-border bg-muted p-2.5">
+                  <div className="flex h-full flex-col justify-between border border-border-strong p-3.5">
+                    <div className="flex items-center justify-between">
+                      <span className="block h-2 w-14 bg-border-strong" />
+                      <span className="border-[1.5px] border-accent bg-card px-1.5 py-1 text-[10px] font-bold tracking-[0.06em] text-accent-secondary">
+                        CERT-·····
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="block h-3 w-3/5 bg-border-strong" />
+                      <span className="block h-1.5 w-4/5 bg-border" />
+                    </div>
+                    <div className="flex items-end justify-between">
+                      <span className="block h-1.5 w-[70px] bg-border" />
+                      <span className="block size-8 border-[1.5px] border-accent bg-[repeating-linear-gradient(45deg,var(--tint-100)_0_3px,#fff_3px_6px)]" />
+                    </div>
                   </div>
                 </div>
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  Instant lookup against our certificate records — no login required.
-                </p>
+                <div className="flex flex-[1_1_220px] flex-col gap-3">
+                  <span className="text-lg font-bold">Where to find the ID</span>
+                  <span className="text-ui leading-[1.6] text-muted-foreground">
+                    Printed on the certificate near the student&apos;s name.
+                  </span>
+                </div>
               </div>
-            </div>
-          </FadeInUp>
+            )}
+
+            {code && certificate && !certificate.revoked && (
+              <div className="anim-rise overflow-hidden rounded-card border border-[#A7D7BE] bg-card shadow-card">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#A7D7BE] bg-[#E8F5EE] px-7 py-5.5">
+                  <span className="flex items-center gap-3">
+                    <span className="flex size-9 items-center justify-center rounded-full bg-success">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+                    </span>
+                    <span className="flex flex-col">
+                      <span className="text-lg font-bold text-success">Valid certificate</span>
+                      <span className="text-meta text-body">Issued by InternSetu · checked just now</span>
+                    </span>
+                  </span>
+                  <span className="tnum text-sm font-bold tracking-[0.04em] text-success">{shownId}</span>
+                </div>
+                <dl className="m-0 px-7 py-2">
+                  <VerifyRow label="Awarded to" value={certificate.studentNameSnapshot} />
+                  <VerifyRow label="Internship" value={certificate.internshipTitleSnapshot} />
+                  <VerifyRow
+                    label="Partner company"
+                    value={certificate.internship.partnerCompany ?? "[Partner company]"}
+                  />
+                  <VerifyRow
+                    label="Duration · mode"
+                    value={`${certificate.internship.durationWeeks} weeks`}
+                  />
+                  <VerifyRow
+                    label="Completed"
+                    value={new Date(certificate.issueDate).toLocaleDateString("en-IN", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    last
+                  />
+                </dl>
+                <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border bg-muted px-7 py-4">
+                  <span className="text-meta text-muted-foreground">
+                    Final project reviewed and approved by the company mentor.
+                  </span>
+                  <CopyLinkButton code={certificate.verificationCode} />
+                </div>
+              </div>
+            )}
+
+            {code && certificate && certificate.revoked && (
+              <div className="anim-rise overflow-hidden rounded-card border border-[#F2B8B2] bg-card" role="alert">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#F2B8B2] bg-[#FDECEA] px-7 py-5.5">
+                  <span className="flex items-center gap-3">
+                    <span className="flex size-9 items-center justify-center rounded-full bg-error">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+                    </span>
+                    <span className="flex flex-col">
+                      <span className="text-lg font-bold text-error">Certificate revoked</span>
+                      <span className="text-meta text-body">This certificate is no longer valid</span>
+                    </span>
+                  </span>
+                  <span className="tnum text-sm font-bold tracking-[0.04em] text-error line-through">{shownId}</span>
+                </div>
+                <dl className="m-0 px-7 py-2">
+                  <VerifyRow label="Programme" value={certificate.internshipTitleSnapshot} />
+                  <VerifyRow
+                    label="Originally issued"
+                    value={new Date(certificate.issueDate).toLocaleDateString("en-IN", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  />
+                  <VerifyRow
+                    label="Reason"
+                    value={certificate.revokedReason ?? "Not specified."}
+                    last
+                  />
+                </dl>
+                <div className="border-t border-border bg-muted px-7 py-4 text-meta leading-[1.55] text-muted-foreground">
+                  The holder&apos;s name is not shown for revoked certificates. Questions?{" "}
+                  <Link href={ROUTES.contact}>Contact us</Link>.
+                </div>
+              </div>
+            )}
+
+            {code && !certificate && (
+              <div className="anim-rise flex min-h-[360px] flex-col gap-5 rounded-card border border-border border-t-[3px] border-t-[#C2362B] bg-card p-[clamp(24px,4vw,40px)]" role="alert">
+                <span className="flex size-12 items-center justify-center rounded-full border-[1.5px] border-error">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2362B" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
+                </span>
+                <div className="flex flex-col gap-2">
+                  <span className="text-xl font-bold tracking-[-0.015em]">No certificate found</span>
+                  <span className="text-ui leading-[1.6] text-muted-foreground">
+                    We could not find a certificate with the ID{" "}
+                    <b className="tnum text-navy">{shownId}</b> in the InternSetu register.
+                  </span>
+                </div>
+                <ul className="m-0 border-t border-border py-0 pt-4 pl-4.5 text-ui leading-[1.9] text-muted-foreground">
+                  <li>Check for typing errors — the letter O and the number 0 are easy to confuse.</li>
+                  <li>If the certificate looks genuine but cannot be found, it may not have been issued by InternSetu.</li>
+                </ul>
+                <div className="mt-auto flex flex-wrap gap-3">
+                  <Link href={ROUTES.verify} className="btn btn-outline">Try another ID</Link>
+                  <Link href={ROUTES.contact} className="btn btn-ghost-navy">Report a suspected forgery</Link>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      <section className="border-t border-border bg-muted/40 px-4 py-20">
-        <div className="mx-auto max-w-2xl">
-          <Card>
-            <form className="flex flex-col gap-4 sm:flex-row sm:items-end" method="GET">
-              <div className="flex-1">
-                <Label htmlFor="code">Verification code</Label>
-                <Input
-                  id="code"
-                  name="code"
-                  placeholder="CERT-7K9M2-QX4RT"
-                  defaultValue={code ?? ""}
-                  className="font-mono uppercase"
-                  autoComplete="off"
-                  required
-                />
+      <section className="px-section-x py-section-y-lg">
+        <div className="mx-auto flex max-w-content flex-wrap gap-x-wide gap-y-12">
+          <div className="flex flex-[4_1_300px] flex-col gap-5">
+            <h2 className="m-0 text-[clamp(28px,3vw,40px)] font-bold leading-[1.1] tracking-[-0.03em]">
+              What a verification confirms
+            </h2>
+            <p className="m-0 text-ui leading-[1.65] text-muted-foreground">
+              Every result comes directly from the InternSetu register. We never show contact details or scores.
+            </p>
+          </div>
+          <div className="grid min-w-0 flex-[8_1_520px] grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-y-0 gap-x-8">
+            {WHAT_IT_CONFIRMS.map((item, index) => (
+              <div
+                key={item.title}
+                className={`flex flex-col gap-1.5 py-5.5 ${index < 2 ? "border-t border-navy" : "border-t border-border"}`}
+              >
+                <span className="text-lg font-bold">{item.title}</span>
+                <span className="text-ui leading-[1.6] text-muted-foreground">{item.body}</span>
               </div>
-              <Button type="submit" className="group">
-                <Search className="h-4 w-4" />
-                Verify
-              </Button>
-            </form>
-          </Card>
-
-          {code && (
-            <div className="mt-6">
-              {certificate && !certificate.revoked && (
-                <Card className="border-success/30 bg-success/5">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-success" />
-                    <div>
-                      <p className="font-semibold text-foreground">
-                        This certificate is genuine
-                      </p>
-                      <dl className="mt-3 space-y-1.5 text-sm">
-                        <Row label="Student" value={certificate.studentNameSnapshot} />
-                        <Row label="Internship" value={certificate.internshipTitleSnapshot} />
-                        <Row
-                          label="Issued"
-                          value={new Date(certificate.issueDate).toLocaleDateString("en-IN", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        />
-                        <Row label="Code" value={certificate.verificationCode} mono />
-                      </dl>
-                    </div>
-                  </div>
-                </Card>
-              )}
-
-              {certificate && certificate.revoked && (
-                <Card className="border-error/30 bg-error/5">
-                  <div className="flex items-start gap-3">
-                    <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-error" />
-                    <div>
-                      <p className="font-semibold text-foreground">
-                        This certificate has been revoked
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {certificate.revokedReason ??
-                          "Contact us if you believe this is a mistake."}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              )}
-
-              {!certificate && (
-                <Card className="border-border">
-                  <div className="flex items-start gap-3">
-                    <ShieldX className="mt-0.5 h-6 w-6 shrink-0 text-muted-foreground" />
-                    <div>
-                      <p className="font-semibold text-foreground">
-                        No certificate found for this code
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Double-check the code and try again, or contact us for help.
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              )}
-            </div>
-          )}
+            ))}
+          </div>
         </div>
       </section>
     </main>
   );
 }
 
-function Row({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+function VerifyRow({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
-    <div className="flex items-start gap-2">
-      <dt className="w-20 shrink-0 text-muted-foreground">{label}</dt>
-      <dd className={mono ? "min-w-0 break-words font-mono text-foreground" : "min-w-0 break-words text-foreground"}>
-        {value}
-      </dd>
+    <div className={`grid grid-cols-[180px_minmax(0,1fr)] gap-x-6 gap-y-1 py-4 ${last ? "" : "border-b border-border"}`}>
+      <dt className="text-sm font-semibold text-muted-foreground">{label}</dt>
+      <dd className="m-0 text-base font-semibold">{value}</dd>
     </div>
   );
 }
