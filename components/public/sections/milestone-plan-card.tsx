@@ -29,13 +29,13 @@ export function MilestonePlanCard() {
             </span>
           ))}
 
-          <span className="col-[1/span_2] flex h-9 items-center rounded px-2.5 text-left text-caption text-white bg-navy">
+          <span className="col-[1/span_2] flex h-9 items-center rounded px-2.5 text-left text-caption text-background bg-navy">
             M1 · Plan
           </span>
-          <span className="col-[3/span_2] flex h-9 items-center rounded px-2.5 text-left text-caption text-white bg-navy">
+          <span className="col-[3/span_2] flex h-9 items-center rounded px-2.5 text-left text-caption text-background bg-navy">
             M2 · Components
           </span>
-          <span className="col-[5/span_1] flex h-9 items-center rounded bg-accent px-2 text-caption text-white">
+          <span className="col-[5/span_1] flex h-9 items-center rounded bg-accent px-2 text-caption text-accent-foreground">
             M3
           </span>
           <span className="col-[6/span_2] flex h-9 items-center rounded border-[1.5px] border-dashed border-muted-icon px-2.5 text-caption text-body">
@@ -78,7 +78,7 @@ export function MilestonePlanCard() {
 
       <div className="absolute right-[clamp(0px,2vw,24px)] bottom-0 flex w-[min(340px,86%)] flex-col gap-3 rounded-card border border-border bg-card p-5 shadow-float">
         <div className="flex items-center gap-2.5">
-          <span className="flex size-8 items-center justify-center rounded-full bg-navy text-caption font-bold text-white">
+          <span className="flex size-8 items-center justify-center rounded-full bg-navy text-caption font-bold text-background">
             M
           </span>
           <div className="flex flex-col">

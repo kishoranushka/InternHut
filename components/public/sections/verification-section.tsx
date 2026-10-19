@@ -35,7 +35,7 @@ export function VerificationSection() {
                 id="home-certificate-id"
                 name="code"
                 type="text"
-                placeholder="e.g. IS-2026-000000"
+                placeholder="e.g. GT-2026-000000"
                 className="input tnum h-13 w-auto flex-[1_1_220px]"
               />
               <button type="submit" className="btn btn-navy btn-lg">

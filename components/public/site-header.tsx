@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ROUTES } from "@/lib/routes";
+import { PARTNERS_PAGE_ENABLED, ROUTES } from "@/lib/routes";
 import {
   NAV_ACTIVE_PATHS,
   type MenuId,
@@ -13,6 +13,7 @@ import { MegaInternships } from "./header/mega-internships";
 import { MegaColleges } from "./header/mega-colleges";
 import { MegaHow } from "./header/mega-how";
 import { MobileSheet } from "./header/mobile-sheet";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { ChevronDownIcon, MenuIcon, ShieldCheckIcon } from "./header/header-icons";
 
 const MENU_BUTTONS: { id: MenuId; label: string }[] = [
@@ -51,10 +52,10 @@ export function SiteHeader({
         <div className="flex items-center gap-14">
           <Link
             href={ROUTES.home}
-            aria-label="InternSetu home"
+            aria-label="Graditute home"
             className="text-[21px] font-bold tracking-[-0.025em] text-navy no-underline"
           >
-            InternSetu
+            Graditute
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-9 nav:flex">
@@ -72,13 +73,15 @@ export function SiteHeader({
                 <ChevronDownIcon />
               </button>
             ))}
-            <Link
-              href={ROUTES.partners}
-              className="nav-link"
-              data-current={currentFor("partners")}
-            >
-              Partners
-            </Link>
+            {PARTNERS_PAGE_ENABLED && (
+              <Link
+                href={ROUTES.partners}
+                className="nav-link"
+                data-current={currentFor("partners")}
+              >
+                Partners
+              </Link>
+            )}
             <Link
               href={ROUTES.about}
               className="nav-link"
@@ -90,6 +93,7 @@ export function SiteHeader({
         </div>
 
         <div className="hidden items-center gap-1 nav:flex">
+          <ThemeToggle className="mr-1" />
           <Link href={ROUTES.verify} className="btn btn-ghost-navy btn-sm">
             <ShieldCheckIcon />
             Verify certificate
@@ -102,7 +106,7 @@ export function SiteHeader({
             {isLoggedIn ? "Dashboard" : "Log in"}
           </Link>
           <Link
-            href={ROUTES.internships}
+            href={ROUTES.applyNow}
             className="btn btn-primary btn-sm ml-1"
           >
             Get started
@@ -110,6 +114,7 @@ export function SiteHeader({
         </div>
 
         <div className="flex items-center gap-2 nav:hidden">
+          <ThemeToggle className="h-11 w-11" />
           <button
             type="button"
             className="btn btn-outline btn-sm h-11 w-11 p-0"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ROUTES } from "@/lib/routes";
+import { notFound } from "next/navigation";
+import { PARTNERS_PAGE_ENABLED, ROUTES } from "@/lib/routes";
 import { PartnersExplorer } from "@/components/public/partners/partners-explorer";
 
 export const metadata: Metadata = {
@@ -16,6 +17,8 @@ const CRITERIA = [
 ];
 
 export default function PartnersPage() {
+  if (!PARTNERS_PAGE_ENABLED) notFound();
+
   return (
     <main>
       <section className="px-section-x pt-[clamp(48px,7vw,104px)] pb-0">
@@ -69,7 +72,7 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      <section className="bg-navy px-section-x py-section-y text-white">
+      <section className="bg-inverse px-section-x py-section-y text-white">
         <div className="mx-auto flex max-w-content flex-wrap items-end justify-between gap-x-wide gap-y-10">
           <div className="flex max-w-[720px] flex-col gap-5">
             <span className="eyebrow-on-navy flex items-center gap-3">

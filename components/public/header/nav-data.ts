@@ -1,4 +1,10 @@
-import { ROUTES, categoryHref, INTERNSHIP_CATEGORIES } from "@/lib/routes";
+import {
+  ROUTES,
+  categoryHref,
+  INTERNSHIP_CATEGORIES,
+  PARTNERS_PAGE_ENABLED,
+  visibleLinks,
+} from "@/lib/routes";
 
 /** One internship summary as the "Starting soon" menu column renders it. */
 export type StartingSoonItem = {
@@ -24,12 +30,12 @@ export const BROWSE_BY_FIELD = INTERNSHIP_CATEGORIES.map((category) => ({
   href: categoryHref(category.label),
 }));
 
-export const BEFORE_YOU_APPLY = [
+export const BEFORE_YOU_APPLY = visibleLinks([
   { label: "Partner companies", href: ROUTES.partners },
   { label: "How internships work", href: ROUTES.learning },
   { label: "Eligibility & fees", href: ROUTES.internships },
   { label: "Ask a question", href: ROUTES.contact },
-];
+]);
 
 export const COLLEGE_PARTNERSHIP_LINKS = [
   { label: "Institutional benefits", href: ROUTES.colleges },
@@ -37,11 +43,11 @@ export const COLLEGE_PARTNERSHIP_LINKS = [
   { label: "Implementation process", href: ROUTES.colleges },
 ];
 
-export const COLLEGE_EVALUATE_LINKS = [
+export const COLLEGE_EVALUATE_LINKS = visibleLinks([
   { label: "Partner companies", href: ROUTES.partners },
   { label: "How students are assessed", href: ROUTES.learning },
   { label: "Certificate verification", href: ROUTES.verify },
-];
+]);
 
 export const HOW_IT_WORKS_STEPS = [
   {
@@ -92,14 +98,18 @@ export const MOBILE_GROUPS = [
       { label: "Start an enquiry", href: ROUTES.colleges },
     ],
   },
-  {
-    id: "partners",
-    label: "Partner companies",
-    links: [
-      { label: "All partner companies", href: ROUTES.partners },
-      { label: "Become a partner company", href: ROUTES.contact },
-    ],
-  },
+  ...(PARTNERS_PAGE_ENABLED
+    ? [
+        {
+          id: "partners",
+          label: "Partner companies",
+          links: [
+            { label: "All partner companies", href: ROUTES.partners },
+            { label: "Become a partner company", href: ROUTES.contact },
+          ],
+        },
+      ]
+    : []),
   {
     id: "how",
     label: "How it works",

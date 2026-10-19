@@ -1,6 +1,7 @@
 import { getCurrentAdmin } from "@/lib/dal";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { LogoutButton } from "@/components/admin/logout-button";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export default async function AdminDashboardLayout({
   children,
@@ -15,7 +16,10 @@ export default async function AdminDashboardLayout({
           <p className="text-sm text-muted-foreground">
             Signed in as <span className="text-foreground">{admin.email}</span>
           </p>
-          <LogoutButton />
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <LogoutButton />
+          </div>
         </header>
         <main className="flex-1 bg-muted/40 p-6">{children}</main>
       </div>

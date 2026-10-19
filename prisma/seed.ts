@@ -67,7 +67,7 @@ function faqs(title: string, timeCommitment: string): FaqItem[] {
     },
     {
       q: "Does completing this guarantee a job or placement?",
-      a: "No. InternSetu does not promise jobs or placements. You leave with a reviewed project and a verifiable certificate you can show to employers.",
+      a: "No. Graditute does not promise jobs or placements. You leave with a reviewed project and a verifiable certificate you can show to employers.",
     },
     {
       q: "How do employers check my certificate?",

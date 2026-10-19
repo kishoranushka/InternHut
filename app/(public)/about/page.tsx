@@ -5,7 +5,7 @@ import { ROUTES } from "@/lib/routes";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "InternSetu connects college students with partner companies for guided, project-based internships — and turns the outcome into a certificate anyone can verify.",
+    "Graditute connects college students with partner companies for guided, project-based internships — and turns the outcome into a certificate anyone can verify.",
 };
 
 const PRINCIPLES = [
@@ -70,7 +70,7 @@ const AUDIENCES = [
     eyebrow: "For companies",
     body: "Mentor motivated students on a project you define — we handle the rest.",
     cta: "Become a partner company",
-    href: ROUTES.partners,
+    href: ROUTES.contact,
     variant: "outline-navy" as const,
   },
 ];
@@ -95,13 +95,13 @@ export default function AboutPage() {
         <div className="relative mx-auto flex max-w-content flex-col gap-9">
           <span className="eyebrow flex items-center gap-3">
             <span className="block size-2 bg-accent" />
-            About InternSetu
+            About Graditute
           </span>
           <h1 className="m-0 max-w-[960px] text-balance text-[clamp(44px,6.4vw,92px)] font-bold leading-[0.98] tracking-[-0.05em]">
             A credential should describe what someone can actually do.
           </h1>
           <p className="m-0 max-w-[640px] text-[clamp(17px,1.5vw,20px)] font-medium leading-[1.6] text-body">
-            InternSetu connects college students with partner companies for
+            Graditute connects college students with partner companies for
             guided, project-based internships — and turns the outcome into a
             certificate anyone can verify.
           </p>
@@ -190,7 +190,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-navy px-section-x py-section-y-lg text-white">
+      <section className="bg-inverse px-section-x py-section-y-lg text-white">
         <div className="mx-auto grid max-w-content grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-x-mid gap-y-12">
           {AUDIENCES.map((audience) => (
             <div key={audience.eyebrow} className="flex flex-col gap-4.5 border-t border-border-on-navy pt-6">

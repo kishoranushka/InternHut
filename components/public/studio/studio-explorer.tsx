@@ -68,7 +68,7 @@ export function StudioExplorer() {
 
       {selected && (
         <>
-          <div aria-hidden="true" className="fixed inset-0 z-[80] bg-navy/[0.48]" onClick={() => setOpenId(null)} />
+          <div aria-hidden="true" className="fixed inset-0 z-[80] bg-inverse/[0.48]" onClick={() => setOpenId(null)} />
           <div
             role="dialog"
             aria-modal="true"

@@ -7,7 +7,7 @@ import { CopyLinkButton } from "@/components/public/verify/copy-link-button";
 export const metadata: Metadata = {
   title: "Verify a certificate",
   description:
-    "Check an InternSetu certificate by its ID. For employers, colleges and anyone reviewing a résumé.",
+    "Check an Graditute certificate by its ID. For employers, colleges and anyone reviewing a résumé.",
 };
 
 async function lookupCertificate(code: string) {
@@ -43,7 +43,7 @@ export default async function VerifyCertificatePage({
               Certificate verification
             </span>
             <h1 className="m-0 text-balance text-h2-sm font-bold">
-              Check an InternSetu certificate.
+              Check an Graditute certificate.
             </h1>
             <p className="m-0 text-body-lg leading-[1.65] text-muted-foreground">
               For employers, colleges and anyone reviewing a résumé. Enter the ID
@@ -107,7 +107,7 @@ export default async function VerifyCertificatePage({
                     </span>
                     <span className="flex flex-col">
                       <span className="text-lg font-bold text-success">Valid certificate</span>
-                      <span className="text-meta text-body">Issued by InternSetu · checked just now</span>
+                      <span className="text-meta text-body">Issued by Graditute · checked just now</span>
                     </span>
                   </span>
                   <span className="tnum text-sm font-bold tracking-[0.04em] text-success">{shownId}</span>
@@ -188,12 +188,12 @@ export default async function VerifyCertificatePage({
                   <span className="text-xl font-bold tracking-[-0.015em]">No certificate found</span>
                   <span className="text-ui leading-[1.6] text-muted-foreground">
                     We could not find a certificate with the ID{" "}
-                    <b className="tnum text-navy">{shownId}</b> in the InternSetu register.
+                    <b className="tnum text-navy">{shownId}</b> in the Graditute register.
                   </span>
                 </div>
                 <ul className="m-0 border-t border-border py-0 pt-4 pl-4.5 text-ui leading-[1.9] text-muted-foreground">
                   <li>Check for typing errors — the letter O and the number 0 are easy to confuse.</li>
-                  <li>If the certificate looks genuine but cannot be found, it may not have been issued by InternSetu.</li>
+                  <li>If the certificate looks genuine but cannot be found, it may not have been issued by Graditute.</li>
                 </ul>
                 <div className="mt-auto flex flex-wrap gap-3">
                   <Link href={ROUTES.verify} className="btn btn-outline">Try another ID</Link>
@@ -212,7 +212,7 @@ export default async function VerifyCertificatePage({
               What a verification confirms
             </h2>
             <p className="m-0 text-ui leading-[1.65] text-muted-foreground">
-              Every result comes directly from the InternSetu register. We never show contact details or scores.
+              Every result comes directly from the Graditute register. We never show contact details or scores.
             </p>
           </div>
           <div className="grid min-w-0 flex-[8_1_520px] grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-y-0 gap-x-8">

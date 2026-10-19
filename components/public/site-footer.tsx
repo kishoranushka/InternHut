@@ -1,7 +1,11 @@
 import Link from "next/link";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES, visibleLinks } from "@/lib/routes";
 
-const NAV_COLUMNS = [
+const NAV_COLUMNS: {
+  heading: string;
+  ariaLabel: string;
+  links: { label: string; href: string }[];
+}[] = [
   {
     heading: "Students",
     ariaLabel: "Students",
@@ -24,7 +28,7 @@ const NAV_COLUMNS = [
     ],
   },
   {
-    heading: "InternSetu",
+    heading: "Graditute",
     ariaLabel: "Company",
     links: [
       { label: "About", href: ROUTES.about },
@@ -53,7 +57,7 @@ export function SiteFooter() {
               href={ROUTES.home}
               className="text-heading-sm font-bold tracking-[-0.025em] text-white no-underline"
             >
-              InternSetu
+              Graditute
             </Link>
             <p className="m-0 max-w-[340px] text-ui leading-[1.65] text-on-navy">
               Connecting college students with partner companies for guided,
@@ -69,7 +73,7 @@ export function SiteFooter() {
                   name="code"
                   type="text"
                   placeholder="Certificate ID"
-                  className="box-border h-11 min-w-0 flex-1 rounded-md border border-border-on-navy bg-navy px-3.5 text-ui text-white placeholder:text-on-navy-muted focus:border-accent focus:outline-none"
+                  className="box-border h-11 min-w-0 flex-1 rounded-md border border-border-on-navy bg-inverse px-3.5 text-ui text-white placeholder:text-on-navy-muted focus:border-accent focus:outline-none"
                 />
                 <button type="submit" className="btn btn-white btn-sm h-11">
                   Verify
@@ -85,7 +89,7 @@ export function SiteFooter() {
               className="flex flex-[2_1_150px] flex-col gap-3.5"
             >
               <span className="footer-heading mb-1">{column.heading}</span>
-              {column.links.map((link) => (
+              {visibleLinks(column.links).map((link) => (
                 <Link key={link.label} href={link.href} className="footer-link">
                   {link.label}
                 </Link>
@@ -102,7 +106,7 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-wrap justify-between gap-x-8 gap-y-4 pt-7 text-meta text-on-navy-muted">
-          <span>© {new Date().getFullYear()} InternSetu · [Registered entity name]</span>
+          <span>© {new Date().getFullYear()} Graditute · [Registered entity name]</span>
           <div className="flex flex-wrap gap-6">
             {LEGAL_LINKS.map((label) => (
               <span key={label} className="text-meta text-on-navy-muted">

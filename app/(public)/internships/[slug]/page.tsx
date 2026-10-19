@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatRupees } from "@/lib/money";
-import { ROUTES } from "@/lib/routes";
+import { PARTNERS_PAGE_ENABLED, ROUTES } from "@/lib/routes";
 import { INTERNSHIP_MODE_LABEL, INTERNSHIP_LEVEL_LABEL } from "@/lib/enums";
 import {
   parseDeliverables,
@@ -224,9 +224,11 @@ export default async function InternshipDetailPage({
                     {internship.partnerDescription ??
                       "[Two or three sentences about the company, its product or services, and the team interns will work alongside.]"}
                   </p>
-                  <Link href={ROUTES.partners} className="arrow-link text-meta">
-                    All partner companies <i>&rarr;</i>
-                  </Link>
+                  {PARTNERS_PAGE_ENABLED && (
+                    <Link href={ROUTES.partners} className="arrow-link text-meta">
+                      All partner companies <i>&rarr;</i>
+                    </Link>
+                  )}
                 </div>
               </div>
             </section>
@@ -296,7 +298,7 @@ export default async function InternshipDetailPage({
                 <div className="aspect-[1.414/1] bg-card p-2.5 shadow-float">
                   <div className="flex h-full flex-col justify-between border border-navy p-4.5">
                     <div className="flex justify-between">
-                      <span className="text-caption font-bold">InternSetu</span>
+                      <span className="text-caption font-bold">Graditute</span>
                       <span className="text-[9px] font-bold tracking-[0.06em] text-muted-foreground">
                         IS-{new Date().getFullYear()}-SAMPLE01
                       </span>
@@ -384,7 +386,7 @@ export default async function InternshipDetailPage({
         </div>
       </section>
 
-      <section className="bg-navy px-section-x py-[clamp(64px,8vw,104px)] text-white">
+      <section className="bg-inverse px-section-x py-[clamp(64px,8vw,104px)] text-white">
         <div className="mx-auto flex max-w-content flex-wrap items-end justify-between gap-8">
           <div className="flex max-w-[680px] flex-col gap-4">
             <span className="eyebrow-on-navy">{nextCohort} cohort</span>

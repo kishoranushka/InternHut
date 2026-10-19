@@ -30,7 +30,7 @@ const STEPS = [
 
 export function CollegesSection() {
   return (
-    <section className="bg-navy px-section-x py-section-y-lg text-white">
+    <section className="bg-inverse px-section-x py-section-y-lg text-white">
       <div className="mx-auto flex max-w-content flex-wrap gap-x-wide gap-y-16">
         <div className="flex min-w-0 flex-[5_1_340px] flex-col gap-7">
           <span className="eyebrow-on-navy flex items-center gap-3">

@@ -14,7 +14,7 @@ export function SampleCertificate() {
           <div className="flex items-start justify-between gap-3">
             <span className="flex items-center gap-[clamp(8px,1vw,14px)]">
               <span className="text-[clamp(12px,1.2vw,16px)] font-bold tracking-[-0.01em]">
-                InternSetu
+                Graditute
               </span>
               <span className="block h-4 w-px bg-border-strong" />
               <span className="text-[clamp(9px,0.85vw,12px)] font-semibold text-muted-foreground">
@@ -22,7 +22,7 @@ export function SampleCertificate() {
               </span>
             </span>
             <span className="text-[clamp(9px,0.8vw,11px)] font-bold tracking-[0.08em] text-muted-foreground">
-              IS-2026-SAMPLE01
+              GT-2026-SAMPLE01
             </span>
           </div>
 
@@ -56,7 +56,7 @@ export function SampleCertificate() {
                   Issued [DATE]
                 </span>
                 <span className="text-[clamp(7px,0.7vw,10px)] text-muted-foreground">
-                  Verify at internsetu/verify
+                  Verify at graditute/verify
                 </span>
               </div>
             </div>
@@ -67,11 +67,11 @@ export function SampleCertificate() {
               role="img"
               aria-label="Sample QR code"
             >
-              <rect width="21" height="21" fill="#FFFFFF" />
+              <rect width="21" height="21" fill="var(--card)" />
               <g fill="var(--navy)">
                 <path d="M0 0h7v7H0zM14 0h7v7h-7zM0 14h7v7H0z" />
               </g>
-              <g fill="#FFFFFF">
+              <g fill="var(--card)">
                 <path d="M1 1h5v5H1zM15 1h5v5h-5zM1 15h5v5H1z" />
               </g>
               <g fill="var(--navy)">

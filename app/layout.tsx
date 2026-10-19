@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { ThemeScript } from "@/components/theme/theme-script";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -16,11 +17,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "InternSetu | Guided Internships with Partner Companies",
-    template: "%s | InternSetu",
+    default: "Graditute | Guided Internships with Partner Companies",
+    template: "%s | Graditute",
   },
   description:
-    "InternSetu connects college students with partner companies for guided, project-based internships — weekly milestones, mentor feedback and a certificate anyone can verify.",
+    "Graditute connects college students with partner companies for guided, project-based internships — weekly milestones, mentor feedback and a certificate anyone can verify.",
   keywords: [
     "internship with partner companies",
     "verified internship certificate",
@@ -33,8 +34,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      data-theme="light"
+      suppressHydrationWarning
       className={`${manrope.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
+      <head>
+        <ThemeScript />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
         <Analytics />

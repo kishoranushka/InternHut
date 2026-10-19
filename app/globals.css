@@ -1,65 +1,123 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /*
- * InternSetu design system.
+ * Graditute design system.
  * Every value below is transcribed from the design mockup so components can
  * reference tokens and shared classes instead of repeating raw values.
  */
 
+/*
+ * Ocean-green palette (light + dark), modelled on graditute.vercel.app.
+ * `--navy` is the "ink" colour (headings, rules, small marks) and flips light
+ * in dark mode. `--inverse` is the dark band behind white text (closing
+ * sections, footer, mega-menu promo) and stays dark in both themes.
+ */
 :root {
+  color-scheme: light;
+
   /* Surfaces */
   --background: #ffffff;
   --card: #ffffff;
-  --muted: #f8fafc;
-  --navy: #142b4a;
-  --navy-hover: #1e3a5f;
-  --navy-deep: #0b1a2f;
+  --muted: #f5faf8;
+  --navy: #142b3a;
+  --navy-hover: #1f3d50;
+  --navy-deep: #0b1d26;
+  --inverse: #142b3a;
 
   /* Text */
-  --foreground: #142b4a;
+  --foreground: #142b3a;
   --body: #475569;
-  --muted-foreground: #64748b;
+  --muted-foreground: #566579;
   --muted-icon: #94a3b8;
 
   /* Primary action */
-  --accent: #2563eb;
-  --accent-secondary: #1d4fd0;
-  --accent-pressed: #1b3fa0;
+  --accent: #087f72;
+  --accent-secondary: #065f56;
+  --accent-pressed: #054b44;
   --accent-foreground: #ffffff;
-  --ring: #2563eb;
-  --ring-halo: #dce8fe;
+  --ring: #087f72;
+  --ring-halo: #ddf5ef;
 
-  /* Blue tints */
-  --tint-50: #eff5ff;
-  --tint-100: #dce8fe;
-  --tint-200: #bcd3fd;
-  --blue-soft: #7ea6f8;
-  --badge-tint: #eff5ff;
+  /* Green tints (mint / seafoam) */
+  --tint-50: #eaf8f4;
+  --tint-100: #ddf5ef;
+  --tint-200: #b5e6dc;
+  --blue-soft: #5fd9c9;
+  --badge-tint: #eaf8f4;
 
   /* Borders */
   --border: #e2e8f0;
   --border-strong: #cbd5e1;
-  --border-on-navy: #2e4a70;
+  --border-on-navy: #2a4552;
 
-  /* Text on navy surfaces */
-  --on-navy: #c3d2e8;
-  --on-navy-muted: #9db4d6;
+  /* Text on inverse surfaces */
+  --on-navy: #c7d8dc;
+  --on-navy-muted: #9bb5ba;
 
   /* Status */
-  --success: #0f7b4f;
+  --success: #15803d;
   --error: #b91c1c;
   --warning: #b45309;
   --warning-tint: #fef4e6;
 
-  /* Elevation — navy-tinted, never neutral black */
-  --shadow-card: 0 1px 2px rgba(20, 43, 74, 0.06), 0 4px 12px -4px rgba(20, 43, 74, 0.1);
-  --shadow-panel: 0 1px 2px rgba(20, 43, 74, 0.06), 0 4px 12px -4px rgba(20, 43, 74, 0.1);
-  --shadow-float: 0 2px 4px rgba(20, 43, 74, 0.06), 0 16px 40px -12px rgba(20, 43, 74, 0.22);
-  --shadow-menu: 0 32px 48px -32px rgba(20, 43, 74, 0.28);
+  /* Elevation — ink-tinted, never neutral black */
+  --shadow-card: 0 1px 2px rgba(20, 43, 58, 0.06), 0 4px 12px -4px rgba(20, 43, 58, 0.1);
+  --shadow-panel: 0 1px 2px rgba(20, 43, 58, 0.06), 0 4px 12px -4px rgba(20, 43, 58, 0.1);
+  --shadow-float: 0 2px 4px rgba(20, 43, 58, 0.06), 0 16px 40px -12px rgba(20, 43, 58, 0.22);
+  --shadow-menu: 0 32px 48px -32px rgba(20, 43, 58, 0.28);
 
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.3, 0, 0, 1);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #101c25;
+  --card: #15232d;
+  --muted: #13212b;
+  --navy: #e6eef2;
+  --navy-hover: #ffffff;
+  --navy-deep: #08121a;
+  --inverse: #0b161e;
+
+  --foreground: #e6eef2;
+  --body: #cbd5e1;
+  --muted-foreground: #94a3b8;
+  --muted-icon: #64748b;
+
+  --accent: #14a898;
+  --accent-secondary: #5fd9c9;
+  --accent-pressed: #8fe6da;
+  --accent-foreground: #021815;
+  --ring: #14a898;
+  --ring-halo: #164240;
+
+  --tint-50: #12302f;
+  --tint-100: #164240;
+  --tint-200: #1f5753;
+  --blue-soft: #5fd9c9;
+  --badge-tint: #12302f;
+
+  --border: #263744;
+  --border-strong: #3a5161;
+  --border-on-navy: #263744;
+
+  --on-navy: #c3d2d8;
+  --on-navy-muted: #8fa6ad;
+
+  --success: #22c55e;
+  --error: #f87171;
+  --warning: #d97706;
+  --warning-tint: #3a2a0c;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+  --shadow-float: 0 2px 4px rgba(0, 0, 0, 0.3), 0 16px 40px -12px rgba(0, 0, 0, 0.6);
+  --shadow-menu: 0 32px 48px -32px rgba(0, 0, 0, 0.7);
 }
 
 @theme inline {
@@ -74,6 +132,7 @@
   --color-navy: var(--navy);
   --color-navy-hover: var(--navy-hover);
   --color-navy-deep: var(--navy-deep);
+  --color-inverse: var(--inverse);
   --color-on-navy: var(--on-navy);
   --color-on-navy-muted: var(--on-navy-muted);
   --color-border-on-navy: var(--border-on-navy);
@@ -272,26 +331,26 @@
 
   .btn-primary {
     background: var(--accent);
-    color: #ffffff;
+    color: var(--accent-foreground);
   }
 
   .btn-primary:hover {
     background: var(--accent-secondary);
-    color: #ffffff;
+    color: var(--accent-foreground);
   }
 
   .btn-navy {
     background: var(--navy);
-    color: #ffffff;
+    color: var(--background);
   }
 
   .btn-navy:hover {
     background: var(--navy-hover);
-    color: #ffffff;
+    color: var(--background);
   }
 
   .btn-outline {
-    background: #ffffff;
+    background: var(--card);
     color: var(--navy);
     border-color: var(--border-strong);
   }
@@ -301,14 +360,15 @@
     color: var(--navy);
   }
 
+  /* Sits on --inverse bands, so it stays white in both themes */
   .btn-white {
     background: #ffffff;
-    color: var(--navy);
+    color: var(--inverse);
   }
 
   .btn-white:hover {
-    background: var(--tint-50);
-    color: var(--navy);
+    background: #eaf8f4;
+    color: var(--inverse);
   }
 
   .btn-outline-navy {
@@ -360,7 +420,7 @@
     padding: 0 14px;
     border: 1px solid var(--border-strong);
     border-radius: var(--radius-control);
-    background: #ffffff;
+    background: var(--card);
     width: 100%;
     transition:
       border-color 160ms,
@@ -397,7 +457,7 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    background: #ffffff;
+    background: var(--card);
     transition:
       background-color 120ms,
       border-color 120ms;
@@ -438,7 +498,7 @@
     padding: 0 16px;
     border-radius: var(--radius-chip);
     border: 1px solid var(--border-strong);
-    background: #ffffff;
+    background: var(--card);
     color: var(--navy);
     cursor: pointer;
     display: inline-flex;
@@ -459,7 +519,7 @@
   .chip[aria-pressed="true"] {
     background: var(--navy);
     border-color: var(--navy);
-    color: #ffffff;
+    color: var(--background);
   }
 
   /* Small uppercase section label used above nearly every heading */
@@ -689,7 +749,7 @@
 
   .vtab[aria-selected="true"] {
     box-shadow: inset 2px 0 0 var(--accent);
-    background: #ffffff;
+    background: var(--card);
   }
 
   /* On-page jump nav — the internship detail page's section anchor links */
@@ -718,7 +778,7 @@
     font-family: inherit;
     text-align: left;
     cursor: pointer;
-    background: #ffffff;
+    background: var(--card);
     border: 0;
     border-top: 2px solid var(--border);
     padding: 24px 24px 28px 0;
@@ -760,7 +820,7 @@
     border-radius: 9999px;
     border: 1.5px solid var(--border-strong);
     flex: none;
-    background: #ffffff;
+    background: var(--card);
     transition: border 120ms;
   }
 
@@ -877,6 +937,17 @@
 .bg-dot-grid {
   background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+
+/* Homepage testimonial carousel: cards morph between the featured and side slots */
+::view-transition-group(.testimonial) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(.testimonial),
+::view-transition-new(.testimonial) {
+  animation-duration: 520ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

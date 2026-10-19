@@ -5,7 +5,7 @@ import { ContactSection } from "@/components/public/contact/contact-section";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Choose who you are so your message reaches the right person at InternSetu — students, colleges, partner companies, or anyone else.",
+    "Choose who you are so your message reaches the right person at Graditute — students, colleges, partner companies, or anyone else.",
 };
 
 const DIRECT_CHANNELS = [

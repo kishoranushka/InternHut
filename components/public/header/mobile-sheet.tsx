@@ -69,7 +69,7 @@ export function MobileSheet({
 
       <div className="mt-auto flex flex-col gap-3 pt-8">
         <Link
-          href={ROUTES.internships}
+          href={ROUTES.applyNow}
           onClick={onNavigate}
           className="btn btn-primary btn-lg"
         >

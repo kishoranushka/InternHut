@@ -44,7 +44,7 @@ export function FeaturedInternshipCard({
           <span className="text-caption font-bold uppercase tracking-[0.14em] text-accent-secondary">
             {internship.category}
           </span>
-          <span className="inline-flex h-6 items-center gap-1.5 self-start rounded bg-white px-2 text-caption font-bold text-success">
+          <span className="inline-flex h-6 items-center gap-1.5 self-start rounded bg-card px-2 text-caption font-bold text-success">
             <span className="block size-1.5 rounded-full bg-success" />
             {seatsOpen ? "Applications open" : "Waitlist open"}
           </span>

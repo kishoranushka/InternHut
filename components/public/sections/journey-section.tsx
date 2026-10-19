@@ -5,7 +5,7 @@ const STAGES = [
   {
     number: "01",
     title: "Apply & get matched",
-    body: "Choose an internship and apply. Once you're matched with the partner company, you receive the brief and milestone calendar.",
+    body: "Pick an internship and apply. Once you're matched with a company, you get your project brief and a weekly plan.",
     record: "Confirmed match & brief",
     marker: "outline",
     connector: "solid",
@@ -13,7 +13,7 @@ const STAGES = [
   {
     number: "02",
     title: "Work on a company project",
-    body: "Build in weekly milestones on a brief set by the company. Each asks for a specific artefact — a component, an analysis, a working endpoint.",
+    body: "Work on a real project from the company, finishing one small task each week.",
     record: "Milestone submissions",
     marker: "tint",
     connector: "solid",
@@ -21,7 +21,7 @@ const STAGES = [
   {
     number: "03",
     title: "Mentor feedback",
-    body: "A mentor from the company scores each submission against a published rubric and writes specific, actionable comments.",
+    body: "A mentor from the company checks your work and tells you clearly what to improve.",
     record: "Scored reviews",
     marker: "accent",
     connector: "solid",
@@ -29,7 +29,7 @@ const STAGES = [
   {
     number: "04",
     title: "Completion review",
-    body: "Your final project is assessed against the programme's published completion criteria.",
+    body: "We check your final project against clear rules you see from day one.",
     record: "Completion decision",
     marker: "navy",
     connector: "dashed",
@@ -37,7 +37,7 @@ const STAGES = [
   {
     number: "05",
     title: "Certificate & verification",
-    body: "Your certificate names the partner company and carries a unique ID and QR code. Anyone can check it online.",
+    body: "You get a certificate with a unique ID and QR code that anyone can check online.",
     record: "Verifiable credential",
     marker: "seal",
     connector: "none",
@@ -54,14 +54,14 @@ function StageMarker({
   return (
     <div className="flex items-center">
       {marker === "seal" ? (
-        <span className="flex size-[18px] flex-none items-center justify-center rounded-full border-[1.5px] border-navy bg-white">
+        <span className="flex size-[18px] flex-none items-center justify-center rounded-full border-[1.5px] border-navy bg-card">
           <span className="block size-2 rounded-full bg-accent" />
         </span>
       ) : (
         <span
           className={cn(
             "block size-[18px] flex-none",
-            marker === "outline" && "border-[1.5px] border-navy bg-white",
+            marker === "outline" && "border-[1.5px] border-navy bg-card",
             marker === "tint" && "border-[1.5px] border-navy bg-tint-100",
             marker === "accent" && "bg-accent",
             marker === "navy" && "bg-navy",

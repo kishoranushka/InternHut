@@ -143,7 +143,7 @@ export default function BenefitsPage() {
             {BENEFITS.map((benefit) => (
               <StaggerItem key={benefit.title}>
                 <Card className="h-full">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-accent text-white">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-accent text-accent-foreground">
                     <benefit.icon className="h-5 w-5" />
                   </span>
                   <p className="mt-4 text-base font-semibold tracking-[-0.01em] text-foreground">
@@ -202,7 +202,7 @@ export default function BenefitsPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-foreground px-4 py-28 text-center text-white">
+      <section className="relative overflow-hidden bg-inverse px-4 py-28 text-center text-white">
         <div className="bg-dot-grid pointer-events-none absolute inset-0 opacity-[0.03]" />
         <div className="pointer-events-none absolute left-0 top-0 h-72 w-72 rounded-full bg-accent/20 blur-[150px]" />
         <FadeInUp className="relative mx-auto max-w-2xl">

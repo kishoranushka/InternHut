@@ -89,7 +89,7 @@ const MOMENTS = [
             key={slot}
             className={
               i === 0
-                ? "flex items-center justify-between rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white"
+                ? "flex items-center justify-between rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground"
                 : "flex items-center justify-between rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground"
             }
           >
@@ -150,10 +150,10 @@ const MOMENTS = [
     title: "Alumni community",
     body: (
       <div className="flex items-center gap-3 rounded-lg border border-border px-4 py-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
           RK
         </span>
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-xs font-bold text-white">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-xs font-bold text-background">
           AV
         </span>
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--badge-tint)] text-xs font-bold text-accent-secondary">

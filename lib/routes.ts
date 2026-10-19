@@ -8,6 +8,8 @@ export const ROUTES = {
   internships: "/internships",
   internship: (slug: string) => `/internships/${slug}`,
   apply: (slug: string) => `/apply/${slug}`,
+  /** General internship registration form (not tied to one programme). */
+  applyNow: "/apply",
   learning: "/learning",
   studio: "/studio",
   colleges: "/colleges",
@@ -19,6 +21,17 @@ export const ROUTES = {
   register: "/register",
   dashboard: "/dashboard",
 } as const;
+
+/**
+ * The Partners page is hidden for now: its route 404s and every link to it is
+ * dropped. Flip to true to bring the page and its links back.
+ */
+export const PARTNERS_PAGE_ENABLED = false;
+
+/** Keeps only the links whose target page is currently shown. */
+export function visibleLinks<T extends { href: string }>(links: readonly T[]): T[] {
+  return links.filter((link) => PARTNERS_PAGE_ENABLED || link.href !== ROUTES.partners);
+}
 
 export const INTERNSHIP_CATEGORIES = [
   { label: "Software development", blurb: "Web, backend, mobile, cloud" },

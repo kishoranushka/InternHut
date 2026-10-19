@@ -11,6 +11,8 @@ import {
   Award,
   Users,
   Bell,
+  ShieldCheck,
+  MessageSquareQuote,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
 
@@ -18,11 +20,13 @@ const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/internships", label: "Internships", icon: GraduationCap },
   { href: "/admin/leads", label: "Leads", icon: Inbox },
+  { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { href: "/admin/calls", label: "Calls", icon: PhoneCall },
   { href: "/admin/payments", label: "Payments", icon: CreditCard },
   { href: "/admin/certificates", label: "Certificates", icon: Award },
   { href: "/admin/visitors", label: "Visitors", icon: Users },
   { href: "/admin/alerts", label: "Alerts", icon: Bell },
+  { href: "/admin/admins", label: "Admins", icon: ShieldCheck },
 ];
 
 export function AdminSidebar() {
@@ -43,7 +47,7 @@ export function AdminSidebar() {
             href={href}
             className={cn(
               "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted",
-              isActive && "bg-gradient-accent text-white hover:brightness-105",
+              isActive && "bg-gradient-accent text-accent-foreground hover:brightness-105",
             )}
           >
             <Icon className="h-4 w-4" />

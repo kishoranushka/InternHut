@@ -33,7 +33,7 @@ export function PageHero({
     <section
       className={cn(
         "px-section-x pt-hero-top pb-section-y",
-        isNavy && "bg-navy text-white",
+        isNavy && "bg-inverse text-white",
       )}
     >
       <div className="mx-auto flex max-w-content flex-wrap items-center gap-roomy">

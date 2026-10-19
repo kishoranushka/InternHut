@@ -34,5 +34,15 @@ export const INTERNSHIP_LEVEL_LABEL: Record<InternshipLevel, string> = {
   INTERMEDIATE: "Intermediate",
 };
 
-export const CONTACT_PATH = ["STUDENT", "INSTITUTION", "COMPANY", "GENERAL"] as const;
+export const GENDER = ["MALE", "FEMALE", "OTHER", "PREFER_NOT_TO_SAY"] as const;
+export type Gender = (typeof GENDER)[number];
+
+export const GENDER_LABEL: Record<Gender, string> = {
+  MALE: "Male",
+  FEMALE: "Female",
+  OTHER: "Other",
+  PREFER_NOT_TO_SAY: "Prefer not to say",
+};
+
+export const CONTACT_PATH =["STUDENT", "INSTITUTION", "COMPANY", "GENERAL"] as const;
 export type ContactPath = (typeof CONTACT_PATH)[number];

@@ -52,7 +52,7 @@ export function MegaInternships({
         ))}
       </MegaColumn>
 
-      <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-card bg-navy p-8 text-white">
+      <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-card bg-inverse p-8 text-white">
         <svg
           width="132"
           height="132"

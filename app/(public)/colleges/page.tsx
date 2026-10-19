@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ROUTES, categoryHref, INTERNSHIP_CATEGORIES } from "@/lib/routes";
+import { ROUTES, categoryHref, INTERNSHIP_CATEGORIES, PARTNERS_PAGE_ENABLED } from "@/lib/routes";
 import { EnquiryForm } from "@/components/public/colleges/enquiry-form";
 
 export const metadata: Metadata = {
@@ -186,9 +186,11 @@ export default function CollegesPage() {
                 </Link>
               ))}
             </div>
-            <Link href={ROUTES.partners} className="arrow-link text-ui">
-              See our partner companies <i>&rarr;</i>
-            </Link>
+            {PARTNERS_PAGE_ENABLED && (
+              <Link href={ROUTES.partners} className="arrow-link text-ui">
+                See our partner companies <i>&rarr;</i>
+              </Link>
+            )}
           </div>
 
           <div className="min-w-0 flex-[7_1_480px] overflow-hidden rounded-card border border-tint-200 bg-card">
@@ -233,7 +235,7 @@ export default function CollegesPage() {
         </div>
       </section>
 
-      <section id="process" className="bg-navy px-section-x py-section-y text-white">
+      <section id="process" className="bg-inverse px-section-x py-section-y text-white">
         <div className="mx-auto flex max-w-content flex-col gap-stack">
           <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
             <div className="flex max-w-[680px] flex-col gap-5">

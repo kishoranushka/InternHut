@@ -74,9 +74,9 @@ export default function LearningPage() {
               ))}
 
               <span className="border-t border-border py-2.5 text-sm font-semibold text-body">Milestone</span>
-              <span className="col-span-1 col-start-2 m-1 flex h-9 items-center rounded px-2.5 text-caption font-bold text-white" style={{ background: "var(--navy)" }}>Opens</span>
+              <span className="col-span-1 col-start-2 m-1 flex h-9 items-center rounded px-2.5 text-caption font-bold text-background" style={{ background: "var(--navy)" }}>Opens</span>
               <span className="col-span-4 col-start-3 m-1 flex h-9 items-center rounded border border-tint-200 bg-tint-50 px-3 text-caption font-bold text-accent-secondary">Build at your own pace · 8–10 hrs</span>
-              <span className="col-span-1 col-start-7 m-1 flex h-9 items-center rounded bg-accent px-2.5 text-caption font-bold text-white">Submit</span>
+              <span className="col-span-1 col-start-7 m-1 flex h-9 items-center rounded bg-accent px-2.5 text-caption font-bold text-accent-foreground">Submit</span>
               <span className="col-span-1 col-start-8 m-1 flex h-9 items-center rounded border-[1.5px] border-dashed border-muted-icon px-2.5 text-caption font-bold text-body">Buffer</span>
 
               <span className="border-t border-border py-2.5 text-sm font-semibold text-body">Support</span>
@@ -134,30 +134,30 @@ export default function LearningPage() {
         </div>
       </section>
 
-      <section className="bg-navy px-section-x py-section-y text-white">
+      <section className="bg-inverse px-section-x py-section-y text-white">
         <div className="mx-auto flex max-w-content flex-wrap items-center gap-x-wide gap-y-14">
           <div className="min-w-0 flex-[6_1_440px] overflow-hidden rounded-card bg-card text-navy shadow-[0_24px_56px_-24px_rgba(0,0,0,0.5)]">
             <div className="flex items-center justify-between gap-3 border-b border-border px-7 py-5.5">
               <span className="flex items-center gap-3">
-                <span className="flex size-6 items-center justify-center rounded-full bg-accent text-caption font-bold text-white">1</span>
+                <span className="flex size-6 items-center justify-center rounded-full bg-accent text-caption font-bold text-accent-foreground">1</span>
                 <span className="text-meta font-bold text-muted-foreground">Milestone 3 of 5</span>
               </span>
               <span className="flex items-center gap-2.5">
                 <span className="text-meta font-semibold text-body">Due Sun, 11:59 pm</span>
-                <span className="flex size-6 items-center justify-center rounded-full bg-accent text-caption font-bold text-white">2</span>
+                <span className="flex size-6 items-center justify-center rounded-full bg-accent text-caption font-bold text-accent-foreground">2</span>
               </span>
             </div>
             <div className="flex flex-col gap-5.5 p-7">
               <h3 className="m-0 text-2xl font-bold tracking-[-0.02em]">Dashboard view</h3>
               <div className="flex gap-3">
-                <span className="flex size-6 flex-none items-center justify-center rounded-full bg-accent text-caption font-bold text-white">3</span>
+                <span className="flex size-6 flex-none items-center justify-center rounded-full bg-accent text-caption font-bold text-accent-foreground">3</span>
                 <div className="flex flex-col gap-1">
                   <span className="text-caption font-bold tracking-[0.12em] text-muted-foreground uppercase">Submit</span>
                   <span className="text-ui leading-[1.55]">A deployed preview link and a pull request with a short write-up.</span>
                 </div>
               </div>
               <div className="flex gap-3">
-                <span className="flex size-6 flex-none items-center justify-center rounded-full bg-accent text-caption font-bold text-white">4</span>
+                <span className="flex size-6 flex-none items-center justify-center rounded-full bg-accent text-caption font-bold text-accent-foreground">4</span>
                 <div className="flex flex-1 flex-col gap-2">
                   <span className="text-caption font-bold tracking-[0.12em] text-muted-foreground uppercase">Scored on</span>
                   <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 text-sm font-semibold">
@@ -169,7 +169,7 @@ export default function LearningPage() {
                 </div>
               </div>
               <div className="flex gap-3 rounded-md bg-muted p-4">
-                <span className="flex size-6 flex-none items-center justify-center rounded-full bg-accent text-caption font-bold text-white">5</span>
+                <span className="flex size-6 flex-none items-center justify-center rounded-full bg-accent text-caption font-bold text-accent-foreground">5</span>
                 <div className="flex flex-col gap-1">
                   <span className="text-caption font-bold tracking-[0.12em] text-muted-foreground uppercase">Feedback window</span>
                   <span className="text-ui leading-[1.55]">Review returned by Tuesday. Resubmit once if the minimum score isn&apos;t met.</span>
