@@ -47,7 +47,12 @@ const LEGAL_LINKS = [
   "Grievance officer",
 ];
 
-export function SiteFooter() {
+export function SiteFooter({ isLoggedIn }: { isLoggedIn: boolean }) {
+  // College pages are hidden from logged-in students.
+  const columns = isLoggedIn
+    ? NAV_COLUMNS.filter((column) => column.heading !== "Colleges")
+    : NAV_COLUMNS;
+
   return (
     <footer className="bg-navy-deep px-section-x pt-section-y pb-10 text-white">
       <div className="mx-auto max-w-content">
@@ -82,7 +87,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {NAV_COLUMNS.map((column) => (
+          {columns.map((column) => (
             <nav
               key={column.heading}
               aria-label={column.ariaLabel}

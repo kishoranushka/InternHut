@@ -3,16 +3,17 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ROUTES } from "@/lib/routes";
 import { CopyLinkButton } from "@/components/public/verify/copy-link-button";
+import { CERTIFICATE_CODE_EXAMPLE, normalizeCertificateCode } from "@/lib/certificate-code";
 
 export const metadata: Metadata = {
   title: "Verify a certificate",
   description:
-    "Check an Graditute certificate by its ID. For employers, colleges and anyone reviewing a résumé.",
+    "Check a Graditute certificate by its ID. For employers, colleges and anyone reviewing a résumé.",
 };
 
 async function lookupCertificate(code: string) {
   return prisma.certificate.findUnique({
-    where: { verificationCode: code.trim().toUpperCase() },
+    where: { verificationCode: normalizeCertificateCode(code) },
     include: { internship: true },
   });
 }
@@ -31,7 +32,7 @@ export default async function VerifyCertificatePage({
 }) {
   const { code } = await searchParams;
   const certificate = code ? await lookupCertificate(code) : null;
-  const shownId = code?.trim().toUpperCase() ?? "";
+  const shownId = code ? normalizeCertificateCode(code) : "";
 
   return (
     <main>
@@ -43,7 +44,7 @@ export default async function VerifyCertificatePage({
               Certificate verification
             </span>
             <h1 className="m-0 text-balance text-h2-sm font-bold">
-              Check an Graditute certificate.
+              Check a Graditute certificate.
             </h1>
             <p className="m-0 text-body-lg leading-[1.65] text-muted-foreground">
               For employers, colleges and anyone reviewing a résumé. Enter the ID
@@ -57,14 +58,14 @@ export default async function VerifyCertificatePage({
                   name="code"
                   type="text"
                   defaultValue={code ?? ""}
-                  placeholder="CERT-XXXXX-XXXX"
+                  placeholder={CERTIFICATE_CODE_EXAMPLE}
                   autoComplete="off"
                   spellCheck={false}
                   className="input tnum h-14 w-auto flex-[1_1_240px] text-lg font-semibold uppercase tracking-[0.04em]"
                 />
                 <button type="submit" className="btn btn-navy btn-lg h-14">Verify</button>
               </div>
-              <span className="text-meta text-body">Letters are not case-sensitive.</span>
+              <span className="text-meta text-body">Capital letters, spaces and dashes don&apos;t matter.</span>
             </form>
           </div>
 
@@ -76,7 +77,7 @@ export default async function VerifyCertificatePage({
                     <div className="flex items-center justify-between">
                       <span className="block h-2 w-14 bg-border-strong" />
                       <span className="border-[1.5px] border-accent bg-card px-1.5 py-1 text-[10px] font-bold tracking-[0.06em] text-accent-secondary">
-                        CERT-·····
+                        GT-····-····
                       </span>
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -85,7 +86,7 @@ export default async function VerifyCertificatePage({
                     </div>
                     <div className="flex items-end justify-between">
                       <span className="block h-1.5 w-[70px] bg-border" />
-                      <span className="block size-8 border-[1.5px] border-accent bg-[repeating-linear-gradient(45deg,var(--tint-100)_0_3px,#fff_3px_6px)]" />
+                      <span className="block size-8 border-[1.5px] border-accent bg-[repeating-linear-gradient(45deg,var(--tint-100)_0_3px,var(--card)_3px_6px)]" />
                     </div>
                   </div>
                 </div>
@@ -99,8 +100,8 @@ export default async function VerifyCertificatePage({
             )}
 
             {code && certificate && !certificate.revoked && (
-              <div className="anim-rise overflow-hidden rounded-card border border-[#A7D7BE] bg-card shadow-card">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#A7D7BE] bg-[#E8F5EE] px-7 py-5.5">
+              <div className="anim-rise overflow-hidden rounded-card border border-success/30 bg-card shadow-card">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-success/30 bg-success/10 px-7 py-5.5">
                   <span className="flex items-center gap-3">
                     <span className="flex size-9 items-center justify-center rounded-full bg-success">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
@@ -143,8 +144,8 @@ export default async function VerifyCertificatePage({
             )}
 
             {code && certificate && certificate.revoked && (
-              <div className="anim-rise overflow-hidden rounded-card border border-[#F2B8B2] bg-card" role="alert">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#F2B8B2] bg-[#FDECEA] px-7 py-5.5">
+              <div className="anim-rise overflow-hidden rounded-card border border-error/30 bg-card" role="alert">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-error/30 bg-error/10 px-7 py-5.5">
                   <span className="flex items-center gap-3">
                     <span className="flex size-9 items-center justify-center rounded-full bg-error">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -180,9 +181,9 @@ export default async function VerifyCertificatePage({
             )}
 
             {code && !certificate && (
-              <div className="anim-rise flex min-h-[360px] flex-col gap-5 rounded-card border border-border border-t-[3px] border-t-[#C2362B] bg-card p-[clamp(24px,4vw,40px)]" role="alert">
+              <div className="anim-rise flex min-h-[360px] flex-col gap-5 rounded-card border border-border border-t-[3px] border-t-error bg-card p-[clamp(24px,4vw,40px)]" role="alert">
                 <span className="flex size-12 items-center justify-center rounded-full border-[1.5px] border-error">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2362B" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--error)" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
                 </span>
                 <div className="flex flex-col gap-2">
                   <span className="text-xl font-bold tracking-[-0.015em]">No certificate found</span>
@@ -192,7 +193,7 @@ export default async function VerifyCertificatePage({
                   </span>
                 </div>
                 <ul className="m-0 border-t border-border py-0 pt-4 pl-4.5 text-ui leading-[1.9] text-muted-foreground">
-                  <li>Check for typing errors — the letter O and the number 0 are easy to confuse.</li>
+                  <li>Check for typing errors. Codes look like {CERTIFICATE_CODE_EXAMPLE}: GT, the year, then 8 letters and numbers.</li>
                   <li>If the certificate looks genuine but cannot be found, it may not have been issued by Graditute.</li>
                 </ul>
                 <div className="mt-auto flex flex-wrap gap-3">

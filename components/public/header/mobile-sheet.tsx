@@ -17,7 +17,7 @@ export function MobileSheet({
 
   return (
     <div className="anim-menu absolute inset-x-0 top-full box-border flex h-[calc(100vh-80px)] flex-col overflow-y-auto bg-card px-5 pt-2 pb-6 nav:hidden">
-      {MOBILE_GROUPS.map((group) => {
+      {MOBILE_GROUPS.filter((group) => !isLoggedIn || group.id !== "colleges").map((group) => {
         const isOpen = openGroup === group.id;
 
         return (

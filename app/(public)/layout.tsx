@@ -13,7 +13,7 @@ export default async function PublicLayout({ children }: LayoutProps<"/">) {
     <>
       <SiteHeader isLoggedIn={Boolean(session)} startingSoon={startingSoon} />
       <div className="flex-1">{children}</div>
-      <SiteFooter />
+      <SiteFooter isLoggedIn={Boolean(session)} />
     </>
   );
 }

@@ -32,6 +32,10 @@ export function SiteHeader({
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  // College pages are for institutions; logged-in students never see them.
+  const menuButtons = isLoggedIn
+    ? MENU_BUTTONS.filter((item) => item.id !== "colleges")
+    : MENU_BUTTONS;
 
   /** Matches the mockup: clicking toggles, hovering only switches an already-open menu. */
   const toggleMenu = (id: MenuId) =>
@@ -59,7 +63,7 @@ export function SiteHeader({
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-9 nav:flex">
-            {MENU_BUTTONS.map((item) => (
+            {menuButtons.map((item) => (
               <button
                 key={item.id}
                 type="button"
@@ -128,7 +132,7 @@ export function SiteHeader({
       </div>
 
       {openMenu === "internships" && <MegaInternships startingSoon={startingSoon} />}
-      {openMenu === "colleges" && <MegaColleges />}
+      {openMenu === "colleges" && !isLoggedIn && <MegaColleges />}
       {openMenu === "how" && <MegaHow />}
 
       {mobileOpen && (

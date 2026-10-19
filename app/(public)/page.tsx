@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPublishedTestimonials } from "@/lib/queries/testimonials";
+import { getStudentSession } from "@/lib/dal";
 import { HeroSection } from "@/components/public/sections/hero-section";
 import { JourneySection } from "@/components/public/sections/journey-section";
 import { CollegesSection } from "@/components/public/sections/colleges-section";
@@ -16,17 +17,22 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const testimonials = await getPublishedTestimonials();
+  const [testimonials, session] = await Promise.all([
+    getPublishedTestimonials(),
+    getStudentSession(),
+  ]);
+  // College content is hidden from logged-in students.
+  const isStudent = Boolean(session);
 
   return (
     <main>
       <HeroSection />
       <JourneySection />
-      <CollegesSection />
+      {!isStudent && <CollegesSection />}
       <GuidedLearningSection />
       <TestimonialsSection testimonials={testimonials} />
       <VerificationSection />
-      <ClosingSection />
+      <ClosingSection showColleges={!isStudent} />
     </main>
   );
 }

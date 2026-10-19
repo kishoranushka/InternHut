@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getStudentSession } from "@/lib/dal";
 import { ROUTES, categoryHref, INTERNSHIP_CATEGORIES, PARTNERS_PAGE_ENABLED } from "@/lib/routes";
 import { EnquiryForm } from "@/components/public/colleges/enquiry-form";
 
@@ -51,7 +53,10 @@ const PROCESS_STEPS = [
   { number: "05", title: "Delivery & reporting", body: "Onboarding, weekly reviews, progress reports and certificates.", marker: "final" as const },
 ];
 
-export default function CollegesPage() {
+export default async function CollegesPage() {
+  // This page is for institutions; logged-in students go to their dashboard.
+  if (await getStudentSession()) redirect(ROUTES.dashboard);
+
   return (
     <main>
       <section className="px-section-x pt-[clamp(56px,8vw,112px)] pb-0">

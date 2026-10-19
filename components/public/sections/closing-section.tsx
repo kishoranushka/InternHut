@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ROUTES } from "@/lib/routes";
 
-export function ClosingSection() {
+/** `showColleges` is false for logged-in students, who never see college pages. */
+export function ClosingSection({ showColleges = true }: { showColleges?: boolean }) {
   return (
     <section className="border-t border-border px-section-x pt-[clamp(72px,9vw,120px)] pb-section-y-lg">
       <div className="mx-auto max-w-content">
@@ -24,6 +25,7 @@ export function ClosingSection() {
             </Link>
           </div>
 
+          {showColleges && (
           <div className="flex flex-col gap-4 border-b border-l border-border py-10 pl-[clamp(20px,3vw,48px)]">
             <span className="eyebrow">Colleges</span>
             <span className="max-w-[440px] text-panel font-bold">
@@ -36,6 +38,7 @@ export function ClosingSection() {
               Start a partnership enquiry
             </Link>
           </div>
+          )}
         </div>
       </div>
     </section>

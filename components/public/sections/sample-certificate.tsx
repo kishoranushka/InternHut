@@ -22,7 +22,7 @@ export function SampleCertificate() {
               </span>
             </span>
             <span className="text-[clamp(9px,0.8vw,11px)] font-bold tracking-[0.08em] text-muted-foreground">
-              GT-2026-SAMPLE01
+              GT-2026-SAMP-LE00
             </span>
           </div>
 
