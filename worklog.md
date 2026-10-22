@@ -353,3 +353,175 @@ since the Signal Blue pivot and still carried three concrete violations:
   homepage. Worth a follow-up pass if full token consistency across every page is wanted.
 - Did not commit this work — still uncommitted in the working tree alongside the prior session's
   changes.
+
+---
+
+> **Backfill note (written 2026-10-22):** The sections below cover the October commits that were
+> never logged here. They were written from `git log --stat` and the memory index, not re-verified
+> against the code. Commit dates are from git. Sessions from 2026-10-22 onward are logged as they
+> happen.
+
+## 2026-10-12 — Student registration, login and dashboard (commit `39b004a`)
+
+### Context
+Students needed accounts so they can track their applications and certificates. Migration
+`20261007191010_add_student_auth` is dated 2026-10-07 but shipped in the 2026-10-12 commit.
+
+### Changes
+- **`prisma/schema.prisma`**: new `Student` model. `Application.studentId` links a guest
+  application to an account if the student registers later with the same email.
+- **`lib/session.ts`**: signed JWT session cookie (via `jose`) with bcrypt password hashing. It
+  mirrors the existing admin auth pattern.
+- **`lib/dal.ts`**, **`lib/actions/auth-actions.ts`**, **`lib/validation/auth.ts`**: session and
+  auth helpers and server actions for register and login.
+- **`proxy.ts`**: `/dashboard` is guarded.
+- **New pages**: `/register`, `/login`, `/dashboard`. The dashboard lists the student's
+  applications and issued certificates.
+- **`components/public/application-form.tsx`**, **`apply/[slug]/page.tsx`**: applying while
+  logged in links the application to the account and pre-fills the form from the profile.
+
+### Open follow-ups
+- `/register`, `/login` and `/dashboard` still use the older layout. They inherit the current
+  tokens and header but have not been redesigned.
+
+## 2026-10-12 — Rebuild the public site as the InternSetu design system (commit `c5058ce`)
+
+### Context
+The user exported the full Claude Design canvas ("InternSetu Design System", 25 boards). It
+replaced the Signal Blue system end to end. Decisions the user made when asked:
+1. Brand renamed InternCert to InternSetu everywhere.
+2. Design tokens replaced globally, not scoped to some pages.
+3. Internships are DB-driven, not hardcoded from the mockup.
+4. Pages the design links to that did not exist were built for real.
+5. Contact form gets a real backend. Everything in one pass, no pause for review.
+
+### Changes
+- **`app/globals.css`**: the mockup's `ic-*` system became real classes in `@layer components`
+  (`.btn-*`, `.input`, `.chip`, `.eyebrow-*`, `.nav-link`, `.mega-link`, `.hover-card`,
+  `.accordion-btn`, `.anim-rise`, and others). Custom breakpoints are `--breakpoint-nav: 1080px`
+  and `--breakpoint-stack: 760px`, so use `nav:` variants rather than `lg:`. Fluid `clamp()`
+  type and spacing tokens were added. The legacy `--text-*` tokens were deliberately left at
+  their original values because pages still on the old design use them. `.option-btn` was
+  referenced in a focus-visible selector since the first pivot but never defined. It is now.
+- **`components/ui/button.tsx`**: a thin cva wrapper over the new classes. Old variant names
+  (`primary`, `dark`, `outline`, `outline-white`, `ghost`, `danger`) are kept as aliases so
+  unredesigned pages still compile.
+- **Schema**: `Internship` gained `level`, `tags`, `weeklyEffortHours`, partner bio fields,
+  `mode`, `partnerCompany`, and rich content fields (`overview`, `learningOutcomes`,
+  `deliverables`, `weeklyPlan`, `eligibility`, `faqs`). JSON fields are always read through the
+  zod parsers in `lib/validation/internship-content.ts`, never cast. New `ContactMessage` and
+  `PartnershipEnquiry` models have server actions in `lib/actions/`.
+- **`prisma/seed.ts`**: 9 fully detailed internships, up from 5.
+- **Pages**: Home, Colleges, Studio, Learning, Partners, Verify, About and Contact rebuilt.
+  New Catalogue (`/internships`, client-side search, filter and sort over published rows) and
+  Detail (`/internships/[slug]`) pages.
+- **Deliberately static, not DB-backed**: Studio briefs (`studio-briefs-full.ts`) and Partners
+  company cards (`partners-data.ts`). The mockup labels both as illustrative, not real briefs
+  or real company names.
+- **Shared sections** live in `components/public/sections/`. `lib/routes.ts` is the single
+  source of truth for public routes.
+
+### Open follow-ups
+- Not redesigned yet: `/benefits`, `/gallery`, `/apply/[slug]`, the auth pages and all of
+  `/admin/**`. They inherit the new tokens, header and footer.
+- Legacy alias classes (`.shadow-accent`, `.shadow-accent-lg`, `.shadow-product`,
+  `.bg-gradient-accent`, `.text-gradient-accent`, `.gradient-underline`, `.bg-dot-grid`) must
+  stay until their last caller is redesigned. Check callers before deleting.
+- Prisma 7 generates model types as `InternshipModel`. Derive types from the query instead.
+
+## 2026-10-19 to 2026-10-20 — Rebrand to Graditute, ocean green and dark mode (commit `a142cef`)
+
+### Context
+The brand was renamed again, from InternSetu to "Graditute" (exact spelling chosen by the
+user). The palette was copied from the user's reference site. The commit also adds dark mode.
+
+### Changes
+- **Palette and theme** (`app/globals.css`): ocean green primary (`#087F72`, hover `#065F56`),
+  mint and seafoam tints, ink `#142B3A`. Dark theme surface `#101C25`, card `#15232D`. Dark
+  mode is `:root[data-theme="dark"]` token overrides plus `@custom-variant dark`.
+- **Theme switching**: `components/theme/theme-script.tsx` is an inline head script (saved
+  choice, else OS preference, so there is no flash). `components/theme/theme-toggle.tsx` is in
+  the public header and the admin header.
+- **Token rules**: `--navy` is now "ink" and flips light in dark mode. Large dark bands with
+  white text use `bg-inverse`. Ink-filled pills use `text-background`. Anything on `bg-accent`
+  uses `text-accent-foreground`. Surfaces use `var(--card)`, never `#fff`, except `.btn-white`
+  on inverse bands.
+- **Hero**: rewritten as "Right Internship, Great Future" with a Registered / Reviewed /
+  Recruited diagram (`hero-steps-diagram.tsx`). The hero and the recognition strip fill the
+  first screen on desktop (`nav:min-h-[calc(100dvh-80px)]`).
+- **Recognition strip**: `components/public/sections/recognition-section.tsx`, rendered inside
+  the hero, with official MSME, Startup India and MCA logos in `public/images/recognition/`.
+- **`/apply`**: general registration form (`apply/page.tsx`, `internship-lead-form.tsx`). It
+  saves an `InternshipLead` row, shown on `/admin/leads`. Validation is in
+  `lib/validation/internship-lead.ts`.
+- **Testimonials**: DB-driven (`Testimonial` model, migration `add_testimonials`). Managed at
+  `/admin/testimonials` with a required consent checkbox. The homepage carousel is hidden when
+  none are published. Cards morph between slots with the View Transitions API.
+- **Admin users**: `/admin/admins` lists and adds admin users.
+- **Partners**: the page is hidden behind `PARTNERS_PAGE_ENABLED` in `lib/routes.ts`. Code kept.
+- **Homepage**: the explore and studio sections were removed (2026-10-20). Their files were kept.
+- **Prisma**: `lib/prisma.ts` refreshes the client cache after regeneration in dev.
+- **Rename**: InternSetu to Graditute across metadata, UI, seed data and sample certificate IDs
+  (`GT-` prefix).
+
+### Open follow-ups
+- Re-check the hero at 1903x870, 1536x730 and 1366x657 after any hero change. The user wants it
+  to fill the first screen.
+- Admin pages still inherit the look rather than being redesigned.
+
+## 2026-10-20 — Certificate issuing and hiding college pages from students (commit `0acdaed`)
+
+### Context
+Certificates could be verified but not issued. Logged-in students should not see the
+"For Colleges" content, which is aimed at institutions.
+
+### Changes
+- **Issuing**: `/admin/certificates` (`app/admin/(dashboard)/certificates/page.tsx`) lists
+  issued certificates. Issue flow is pick an application, confirm name and completion date,
+  issue. Issuing marks the application COMPLETED. Revoke takes a public reason. Restore
+  reverses it. Components: `issue-certificate-form.tsx`, `certificate-row-actions.tsx`.
+- **Actions and validation**: `lib/actions/certificate-actions.ts`,
+  `lib/validation/certificate.ts`.
+- **Codes**: `lib/certificate-code.ts`. Format `GT-YYYY-XXXX-XXXX`, 8 random Crockford base-32
+  characters from `node:crypto`, never sequential. Retried on the rare collision.
+  `normalizeCertificateCode` fixes case, spaces, missing dashes, and O/0 and I/L/1 mix-ups.
+- **`/verify`**: always looks up through the normalizer. Result cards use theme colours so they
+  read in dark mode.
+- **Student visibility**: logged-in students no longer see the "For Colleges" nav group, the
+  mobile menu entry, the footer Colleges column, the homepage colleges section or the closing
+  colleges column. `/colleges` redirects them to `/dashboard`. Logged-out visitors still see
+  everything.
+- **Scope**: only `Application` rows (tied to an internship) can be certified, not
+  `InternshipLead` registrations.
+
+### Open follow-ups
+- No PDF or QR code generation for certificates yet.
+- Production deploys with `vercel --prod`. The Vercel project is `interncert` at
+  `https://interncert-three.vercel.app`.
+- Production database is Prisma Postgres (host `pooled.db.prisma.io`, read from
+  `.env.production.local` on 2026-10-22). Local dev uses `localhost` from `.env`.
+  `next start` loads the production URL automatically, so pin `DATABASE_URL` to localhost
+  before testing anything that writes data.
+- Migrations applied locally are not applied to production. Production needs
+  `prisma migrate deploy` against the prod URL, and that should be checked with the user first.
+
+## 2026-10-22 — Context check, worklog backfill, and a worklog rule in CLAUDE.md
+
+### Context
+The user asked whether I had project context and whether `worklog.md` was being maintained. It
+stopped at 2026-09-20, so the five October commits were not recorded. Nothing in CLAUDE.md
+or AGENTS.md told me to maintain it, so I had not been doing so.
+
+### Changes
+- **`CLAUDE.md`**: added a "Worklog" section. Read this file at the start of a session, and
+  append a dated section at the end of each session.
+- **`worklog.md`**: backfilled the four October commit sections above. Read-only pass over
+  `git log --stat` and the memory files. No application code changed.
+
+### Verification
+- Nothing was run. The backfill is based on commit messages, diff stats and memory notes. It
+  has not been checked against the code.
+- `git status` was clean before this session's edits.
+
+### Open follow-ups
+- Decide whether to commit `CLAUDE.md` and `worklog.md`.
