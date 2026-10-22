@@ -14,14 +14,14 @@ export function ClosingSection({ showColleges = true }: { showColleges?: boolean
           <div className="flex flex-col gap-4 border-b border-border py-10 pr-[clamp(0px,3vw,48px)] pl-0">
             <span className="eyebrow">Students</span>
             <span className="max-w-[440px] text-panel font-bold">
-              Find an internship with a partner company that fits your semester
-              and your goals.
+              Get yourself out of the clickbait course race and land directly
+              into the real corporate world.
             </span>
             <Link
-              href={ROUTES.internships}
+              href={ROUTES.applyNow}
               className="btn btn-primary btn-lg mt-2 self-start"
             >
-              Explore internships
+              Apply for internship
             </Link>
           </div>
 

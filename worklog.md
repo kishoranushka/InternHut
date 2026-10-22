@@ -524,4 +524,41 @@ or AGENTS.md told me to maintain it, so I had not been doing so.
 - `git status` was clean before this session's edits.
 
 ### Open follow-ups
-- Decide whether to commit `CLAUDE.md` and `worklog.md`.
+- Decide whether to commit `CLAUDE.md` and `worklog.md`. (Done: committed as `7b3ec23`, pushed to `origin/main`.)
+
+## 2026-10-23 — Copy changes on apply, About and journey, plus welcome card on the homepage
+
+### Context
+The user sent copy changes one by one and asked to be asked about anything unclear. A welcome
+card on the homepage was then designed as an HTML mockup, approved, and implemented. It is
+hidden for logged-in students.
+
+### Changes
+- **`app/(public)/apply/page.tsx`**: "What happens next" bodies for Registered, Reviewed and
+  Recruited replaced. "What you get" list replaced with three new items.
+- **`components/public/sections/closing-section.tsx`**: Students column description replaced
+  ("Get yourself out of the clickbait course race…"). Button is now "Apply for internship" and
+  links to `/apply`.
+- **`app/(public)/learning/page.tsx`**, **`app/(public)/about/page.tsx`**: "Explore internships"
+  buttons now say "Apply for internship" and link to `/apply`.
+- **`app/(public)/about/page.tsx`**: first "What you can hold us to" point now reads "Tell you
+  the company details before you start".
+- **`components/public/sections/journey-section.tsx`**: Stage 02 title "Experience the Corporate
+  Life", body "Work and Experience through assigned tasks from real projects." Stage 03 body
+  changed. Stage 04 body changed. Stage 05 now "Get Verified Credentials" with the LOR body.
+- **`components/public/welcome-card.tsx`** (new): client component. Opens over the homepage on
+  each visit. Closes via the cross, Escape or a click on the background. Locks page scroll
+  while open. Buttons go to `/apply`, `/register` and `/login`.
+- **`app/(public)/page.tsx`**: renders `<WelcomeCard />` only when `!isStudent`.
+
+### Verification
+- `npx eslint` on every changed file: clean.
+- `npx tsc --noEmit`: clean.
+- The welcome card and copy changes were not checked in a browser in this session.
+
+### Open follow-ups
+- Welcome card description: the user has not supplied new text yet. The card still shows the
+  mockup wording.
+- Undecided placement: the "Apply for internship →" button and the "Complete registration in
+  2-minutes…" text were not placed anywhere. Waiting for the user to say where they go.
+- The About page "For students" body ("Build one serious project…") was left unchanged.

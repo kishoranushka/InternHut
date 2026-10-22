@@ -8,6 +8,7 @@ import { GuidedLearningSection } from "@/components/public/sections/guided-learn
 import { TestimonialsSection } from "@/components/public/sections/testimonials-section";
 import { VerificationSection } from "@/components/public/sections/verification-section";
 import { ClosingSection } from "@/components/public/sections/closing-section";
+import { WelcomeCard } from "@/components/public/welcome-card";
 
 export const metadata: Metadata = {
   // absolute: skip the root "%s | Graditute" template, which would repeat the name
@@ -26,6 +27,7 @@ export default async function HomePage() {
 
   return (
     <main>
+      {!isStudent && <WelcomeCard />}
       <HeroSection />
       <JourneySection />
       {!isStudent && <CollegesSection />}

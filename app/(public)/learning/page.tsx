@@ -278,7 +278,7 @@ export default function LearningPage() {
             See it applied to a real programme.
           </h2>
           <div className="flex flex-wrap gap-3">
-            <Link href={ROUTES.internships} className="btn btn-primary btn-lg">Explore internships</Link>
+            <Link href={ROUTES.applyNow} className="btn btn-primary btn-lg">Apply for internship</Link>
             <Link href={ROUTES.studio} className="btn btn-outline btn-lg">Browse sample briefs</Link>
           </div>
         </div>

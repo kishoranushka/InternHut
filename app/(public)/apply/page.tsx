@@ -8,15 +8,15 @@ export const metadata: Metadata = {
 };
 
 const NEXT_STEPS = [
-  { title: "Registered", body: "Fill in this short form. It takes about two minutes." },
-  { title: "Reviewed", body: "Our team checks your details and contacts you on WhatsApp or email." },
-  { title: "Recruited", body: "You're matched with a company and start work on a real project." },
+  { title: "Registered", body: "Let us know a bit about you." },
+  { title: "Reviewed", body: "Our AI matches your portfolio directly with open roles within hours." },
+  { title: "Recruited", body: "Join the team and start building from day 0." },
 ];
 
 const WHAT_YOU_GET = [
-  "A real project from a partner company",
-  "Feedback from a mentor every week",
-  "A certificate anyone can verify online",
+  "Real production level project to know how the corporate world works",
+  "Direct Founders and Top Executives Mentorship",
+  "Verified Credentials (Shareable proof-of-work) from the company you interned in",
 ];
 
 export default function ApplyNowPage() {

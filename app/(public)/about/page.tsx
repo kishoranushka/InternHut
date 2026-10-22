@@ -38,7 +38,7 @@ const PRINCIPLES = [
 ];
 
 const WE_WILL = [
-  "Publish fees, briefs and criteria before you apply",
+  "Tell you the company details before you start",
   "Review every submission against its rubric",
   "Keep every certificate verifiable",
   "Use your data only to run your programme",
@@ -55,8 +55,8 @@ const AUDIENCES = [
   {
     eyebrow: "For students",
     body: "Build one serious project, with someone who knows the field reviewing it.",
-    cta: "Explore internships",
-    href: ROUTES.internships,
+    cta: "Apply for internship",
+    href: ROUTES.applyNow,
     variant: "white" as const,
   },
   {

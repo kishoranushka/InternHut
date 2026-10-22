@@ -12,8 +12,8 @@ const STAGES = [
   },
   {
     number: "02",
-    title: "Work on a company project",
-    body: "Work on a real project from the company, finishing one small task each week.",
+    title: "Experience the Corporate Life",
+    body: "Work and Experience through assigned tasks from real projects.",
     record: "Milestone submissions",
     marker: "tint",
     connector: "solid",
@@ -21,7 +21,7 @@ const STAGES = [
   {
     number: "03",
     title: "Mentor feedback",
-    body: "A mentor from the company checks your work and tells you clearly what to improve.",
+    body: "Get feedback from the founder and tech leads for enormous improvement.",
     record: "Scored reviews",
     marker: "accent",
     connector: "solid",
@@ -29,15 +29,15 @@ const STAGES = [
   {
     number: "04",
     title: "Completion review",
-    body: "We check your final project against clear rules you see from day one.",
+    body: "Get a 3-layer evaluation of your overall work during the internship.",
     record: "Completion decision",
     marker: "navy",
     connector: "dashed",
   },
   {
     number: "05",
-    title: "Certificate & verification",
-    body: "You get a certificate with a unique ID and QR code that anyone can check online.",
+    title: "Get Verified Credentials",
+    body: "Receive an official, verifiable certificate and Official Signed Letter of Recommendation (LOR) issued directly by the company.",
     record: "Verifiable credential",
     marker: "seal",
     connector: "none",
