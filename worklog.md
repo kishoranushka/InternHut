@@ -562,3 +562,31 @@ hidden for logged-in students.
 - Undecided placement: the "Apply for internship →" button and the "Complete registration in
   2-minutes…" text were not placed anywhere. Waiting for the user to say where they go.
 - The About page "For students" body ("Build one serious project…") was left unchanged.
+
+## 2026-10-29 — Welcome card: once per session, and fits on mobile
+
+### Context
+The welcome card reopened on every visit to the homepage, including returns from other pages. On
+mobile, the card was taller than the viewport and needed internal scrolling, so the bottom was cut off.
+
+### Changes
+- **`components/public/welcome-card.tsx`**:
+  - Show once per browser tab session. The flag `graditute:welcome-card-seen` is written to
+    `sessionStorage` when the card opens, so closing it or leaving the homepage both keep it hidden
+    for the rest of the session. Storage access is wrapped in try/catch.
+  - Initial state is now closed. An effect opens the card after hydration, which avoids a
+    server/client mismatch.
+  - Shorter copy: the description is one line, and the perks are three short phrases.
+  - Tighter padding, title and spacing on small screens so the whole card fits without scrolling.
+  - One `eslint-disable-next-line react-hooks/set-state-in-effect` for the post-hydration
+    sessionStorage read. The rule flags this pattern, and no other disable comments exist in the repo.
+
+### Verification
+- `npx eslint components/public/welcome-card.tsx`: clean (after the disable comment above).
+- `npx tsc --noEmit`: clean.
+- Not verified in a browser. Playwright is not cached here, and downloading Chromium was not done.
+  Fit at 390×844 and 360×640, and the once-per-session behaviour, still need a manual check.
+
+### Open follow-ups
+- Check the card on a real phone or emulator at 360×640 and 390×844 to confirm it fits.
+- Description and perks are still placeholder wording. The user has not supplied final text yet.
